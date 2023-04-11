@@ -222,6 +222,11 @@ public class Menus {
     */
 	public int dayChoice() {
 		 int choice = sc.nextInt();
+		 while(choice > 4 || choice < 1) {
+			System.out.println("Invalid input.");
+			System.out.println("");
+			choice = sc.nextInt();
+		 }
 		 return choice;
 		 
 	}
@@ -232,6 +237,11 @@ public class Menus {
     */
 	public int riverChoice() {
 		int choice = sc.nextInt();
+		while(choice >= 4 || choice < 1) {
+			System.out.println("Invalid input.");
+			System.out.println("");
+			choice = sc.nextInt();
+		}
 		return choice;
 	}
 	
@@ -242,6 +252,12 @@ public class Menus {
 	public int paceChoice() {
 		 int choice = sc.nextInt();
 
+		 while(choice > 3 || choice < 0) {
+			System.out.println("Invalid input.");
+			System.out.println("");
+			choice = sc.nextInt();
+		 }
+
 		 return choice;
 	}
     /**
@@ -250,7 +266,14 @@ public class Menus {
     */
 	public int townChoice() {
 		int choice = sc.nextInt();
-		return choice;
+		
+
+		while(choice > 3 || choice < 1) {
+			System.out.println("Invalid input.");
+			System.out.println("");
+			choice = sc.nextInt();
+		 }
+		 return choice;
 	}
 		
     /**
@@ -259,7 +282,15 @@ public class Menus {
     */
 	public int shopChoice() {
 		int choice = sc.nextInt();
-		return choice;
+		
+
+		while(choice > 8 || choice < 1) {
+			System.out.println("Invalid input.");
+			System.out.println("");
+			choice = sc.nextInt();
+		 }
+		 return choice;
+		
 	}
 	
 	
