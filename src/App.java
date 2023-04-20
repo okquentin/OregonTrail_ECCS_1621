@@ -176,6 +176,7 @@ public class App {
 				case 3:
 					men.rationPrompt();
 					currRation = men.rationChoice();
+					tm.setRation(currRation);
 					
 
 					break;	

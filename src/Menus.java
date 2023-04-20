@@ -69,7 +69,7 @@ public class Menus {
 					System.out.println("Your ration size is " + rationString);
 					break;
 				case 2:
-					paceString = "Filling";
+					rationString = "Filling";
 					System.out.println("Your ration size is " + rationString);
 					break;
 			}
