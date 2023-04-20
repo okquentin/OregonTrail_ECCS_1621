@@ -24,7 +24,7 @@ public class App {
 		boolean playerDeath = false;
 		
 		// Parameters to pass into methods
-		int currDay, currPace, currDistance, dayChoice, currTerrain, riverDepth, riverLength, temperature, fortsPassed, currRation;
+		int currDay, currPace, currDistance, dayChoice, currTerrain, riverDepth, riverLength, temperature, fortsPassed, currRation, playerCount;
 		String currWeather, currRiver, currTown, storeInventory;
 		
 		// Beginning of Game
@@ -42,6 +42,7 @@ public class App {
 			riverLength = tm.getLength();
 			temperature = tm.getTemperature();
 			currRation = tm.getRation();
+			playerCount = 1;
 			
 			currTown = tm.getTown();
 			currWeather = tm.getWeather();
@@ -144,14 +145,20 @@ public class App {
 			
 			if(gameEnd == true) {break;}
 			//Player Hunger
-			switch(currPace){
-				case 1:
-				wagon.food -= 1;
+			switch(currRation){
+				case 0:
+				wagon.food -= 1 * playerCount;
 				break;
 				case 2:
+				wagon.food -= 2 * playerCount;
+				break;
+				case 3:
+				wagon.food -= 3 * playerCount;
+				break;
 
 
 			}
+			if(wagon.food == 0){playerDeath = true;}
 			
 			// Daily prompt for advancing the game
 			men.dayPrompt();
