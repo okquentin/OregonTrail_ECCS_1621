@@ -17,13 +17,14 @@ public class App {
 		storeClass store = new storeClass();
 		Player player = new Player();
 		randomEvents events = new randomEvents();
+		wagonClass wagon = new wagonClass();
 		
 		// To end the game play loop
 		boolean gameEnd = false;
 		boolean playerDeath = false;
 		
 		// Parameters to pass into methods
-		int currDay, currPace, currDistance, dayChoice, currTerrain, riverDepth, riverLength, temperature, fortsPassed;
+		int currDay, currPace, currDistance, dayChoice, currTerrain, riverDepth, riverLength, temperature, fortsPassed, currRation;
 		String currWeather, currRiver, currTown, storeInventory;
 		
 		// Beginning of Game
@@ -40,12 +41,16 @@ public class App {
 			riverDepth = tm.getDepth();
 			riverLength = tm.getLength();
 			temperature = tm.getTemperature();
+			currRation = tm.getRation();
 			
 			currTown = tm.getTown();
 			currWeather = tm.getWeather();
 			currRiver = tm.getRiver();
 			
-			men.displayDay(currDay, currPace, currTerrain, currDistance, currWeather);
+			men.displayDay(currDay, currPace, currTerrain, currDistance, currRation, currWeather);
+
+			player.pace = currPace;
+	
 			
 			// River cross check
 			if(currTerrain == 2) {
@@ -80,7 +85,7 @@ public class App {
 				exitTown = tm.getExitTown();
 				if(exitTown) {
 					currPace = tm.getPace();
-					men.displayDay(currDay, currPace, currTerrain, currDistance, currWeather);
+					men.displayDay(currDay, currPace, currTerrain, currDistance, currRation, currWeather);
 				}
 				
 				// Shop visit check
@@ -138,6 +143,15 @@ public class App {
 			}
 			
 			if(gameEnd == true) {break;}
+			//Player Hunger
+			switch(currPace){
+				case 1:
+				wagon.food -= 1;
+				break;
+				case 2:
+
+
+			}
 			
 			// Daily prompt for advancing the game
 			men.dayPrompt();
@@ -153,6 +167,10 @@ public class App {
 					tm.setPace(currPace);
 					break;
 				case 3:
+					men.rationPrompt();
+					currRation = men.rationChoice();
+					
+
 					break;	
 				case 4:
 					tm.newDay();

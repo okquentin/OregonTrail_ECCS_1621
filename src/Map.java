@@ -18,6 +18,7 @@ public class Map {
     	
 	 	public int pace; // 0=Resting 1=Steady 2=Strenuous 3=Grueling
 	    public int terrain; // 0=Plains 1=Arid 2=RiverCrossing, 3=Town
+		public int ration; // 0 = Bare Bones, 1 = Meager, 2 = Filling
 	    public int distanceTraveled;
 	    public int fortsPassed;
 	    public String currRiver;
@@ -50,6 +51,7 @@ public class Map {
 	    	distanceTraveled = 0; 
 	    	fortsPassed = 0;
 	    	pace = 1;
+			ration = 1;
 	    	terrain = 3;
 	    	currTown = "Independence, MO";
 			crossBlue = false;
@@ -74,7 +76,8 @@ public class Map {
 	    public void travel(){
 	        switch(pace){
 	            case 0:
-	            	break;
+	            	
+					break;
 	            case 1:
 	                distanceTraveled += 8;
 	                break;
@@ -85,6 +88,19 @@ public class Map {
 	                distanceTraveled += 20;
 	                break;
 	       }
+		   switch(ration){
+			case 0:
+				break;
+			case 1:
+				distanceTraveled += 8;
+				break;
+			case 2:
+				distanceTraveled += 14;
+				break;
+			case 3:
+				distanceTraveled += 20;
+				break;
+	   }
 	        
 	       if(exitTown = true) {
 	    	   terrain = 0;
