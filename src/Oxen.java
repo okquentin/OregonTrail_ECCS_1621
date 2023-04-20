@@ -4,6 +4,7 @@
 * @author Anthony
 *
 */
+
 public class Oxen {
 	boolean isDead;
 	double health = 0;
