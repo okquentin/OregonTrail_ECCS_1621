@@ -11,10 +11,11 @@ public class Player {
     int pace;
     int daysWithoutRest;
     int hunger;
-    int mealSize;
+    int rationSize;
     int clothingQual;
     int diseasedDays = 11;
     int injuredDays = 31;
+    
    
     // buffs and debuffs (future use)
     int hungerFactor = 2;
@@ -35,6 +36,15 @@ public class Player {
         health += 20;
         diseasedDays = 0;
         return true;
+    }
+
+    public void eating(int pace){
+        
+
+
+    }
+    public void setRation(int ration){
+        rationSize = ration;
     }
    
     /**
@@ -80,7 +90,7 @@ public class Player {
         }
    
     //Happen regardless of ailments
-    health += mealSize;
+    health += rationSize;
     health = health * healFactor;
     health += (pace * 2);
    

@@ -29,11 +29,13 @@ public class Menus {
      * @param terrain
      * @param distance
      * @param weather
+	 * @param ration
     */
-	public void displayDay(int day, int pace, int terrain, int distance, String weather) {
+	public void displayDay(int day, int pace, int terrain, int distance, int ration, String weather) {
 		
 		String paceString = null;
 		String terrString = null;
+		String rationString = null;
 		
 		System.out.println("");
 		
@@ -54,6 +56,21 @@ public class Menus {
 				case 3:
 					paceString = "grueling";
 					System.out.println("Your pace is " + paceString);
+					break;
+			}
+			//Prints out the current ration size
+			switch(ration) { 
+				case 0:
+					rationString = "Bare Bones";
+					System.out.println("Your ration size is " + rationString);
+					break;
+				case 1:
+					rationString = "Meager";
+					System.out.println("Your ration size is " + rationString);
+					break;
+				case 2:
+					rationString = "Filling";
+					System.out.println("Your ration size is " + rationString);
 					break;
 			}
 			
@@ -101,6 +118,19 @@ public class Menus {
 		System.out.println("[1] Steady");
 		System.out.println("[2] Strenuous");
 		System.out.println("[3] Grueling");
+	}
+	    /**
+     * Prompts the player to change ration size
+	 * Author: Anthony DiMaria
+    */
+	public void rationPrompt() {
+		System.out.println("");
+		
+		System.out.println("What ration size would you like to set?");
+		System.out.println("");
+		System.out.println("[0] Bare Bones");
+		System.out.println("[1] Meager");
+		System.out.println("[2] Filling");
 	}
 	
     /**
@@ -260,6 +290,21 @@ public class Menus {
 
 		 return choice;
 	}
+	    /**
+     * Allows the player to make a choice from rationPrompt
+     * @return choice
+    */
+	public int rationChoice() {
+		int choice = sc.nextInt();
+
+		while(choice > 2 || choice < 0) {
+		   System.out.println("Invalid input.");
+		   System.out.println("");
+		   choice = sc.nextInt();
+		}
+
+		return choice;
+   }
     /**
      * Allows the player to make a choice from townPrompt
      * @return choice

@@ -20,6 +20,7 @@ public class Time {
 	Weather wth = new Weather();
 	int day = 0;
     
+    
     /**
      * Constructor for Time
      * Sets starting temperature and rain status
@@ -151,15 +152,38 @@ public class Time {
                 break;
         }
     }
+    public void setRation(String rationString){
+        switch(rationString){
+            case "Bare Bones": 
+                map.ration = 0;
+                break;
+            
+            case "Meager": 
+                map.ration = 1;
+                break;
+            
+            case "Filling":
+                map.ration = 2;
+                break;
+            
+        }
+    }
     
     /**
      * Setter for travel pace
      * @param pace 
     */
     public void setPace(int pace) {map.pace = pace;}
+
+    public void setRation(int ration) {map.ration = ration;}
     
     /**
      * Getter for current day 
+     * @return day
+    */
+    public int getRation() {return map.ration;}
+    /**
+     * Getter for current ration 
      * @return day
     */
     public int getDay() {return day;}
