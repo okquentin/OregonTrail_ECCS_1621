@@ -7,7 +7,6 @@
  * @version MVP
  * @since 4/4/2023
  */
-// Goffy AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 public class App {
 	public static void main(String[] args) {
 		
