@@ -7,7 +7,6 @@
  * @version MVP
  * @since 4/4/2023
  */
-// AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 public class App {
 	public static void main(String[] args) {
 		
