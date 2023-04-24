@@ -58,6 +58,49 @@ public class randomEvents {
 	return false;
 	}
 	}
+
+	/**
+	 * Has the husband come back with a random amount of food and has the player roll to see if this can be improved. 
+	 * Gets called once a week. 
+	 * @param cookMod
+	 * @return foodGained
+	 */
+	public int cookingMinigame(int cookMod) {
+		
+		int foodHunted = rand.nextInt(30,100);
+		int cookRoll = rand.nextInt(1,20);
+		int cookTotal = cookRoll + cookMod;
+		int foodGained = 0;
+
+		System.out.println("Your husband comes back from hunting with " + foodHunted + " lbs of food.");
+		System.out.println("You decide to cook and preserve the food.");
+		System.out.println("You roll a " + cookRoll + " plus " + cookMod + " to get a total of " + cookTotal + ".");
+
+		if(cookRoll == 1) {
+			foodGained = foodHunted / 2;
+		}
+		else if(cookRoll == 20) {
+			foodGained = foodHunted * 2;
+		}
+		else {
+			foodGained = foodHunted + (cookTotal - 10) * 2;
+		}
+
+		if(foodGained == foodHunted) {
+			System.out.println("You did an alright job.");
+		}
+		else if(foodGained > foodHunted) {
+			System.out.println("You did a great job!");
+		}
+		else {
+			System.out.println("...Ew...");
+		}
+
+		System.out.println("This resulted in " + foodGained + "lbs of food for you and your family.");
+
+		return(foodGained);
+	}
+
 }
 
 
