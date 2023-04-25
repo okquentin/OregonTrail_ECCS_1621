@@ -10,7 +10,6 @@ public class randomEvents {
 	//injuries are handled by player
 	Random rand = new Random();
 
-
 	/**
 	 * Rolls a d20. 
 	 * @return rollResult
@@ -39,6 +38,7 @@ public class randomEvents {
 	return false;
 	}
 	}
+
 	/**
 	* Method to initiate the wagon part loss/destruction
 	* @return whichPart
@@ -61,6 +61,36 @@ public class randomEvents {
 		}
 		return(0);
 	}
+
+	/**
+	* A robber steals an item from you.
+	* @return whichItem
+	*/
+	public int robber() {
+
+		int partLoss = rand.nextInt(200);
+		int whichItem = rand.nextInt(3);
+		if(partLoss == 1){
+			switch(whichItem) {
+				case 1: // Oxen
+				return(1);
+
+				case 2: // Clothes
+				return(3);
+
+				case 3: // Wheel
+				return(5);
+
+				case 4: // Axle
+				return(6);
+
+				case 5: // Tongue
+				return(7);
+			}
+		}
+		return(0);
+	}
+
 	/**
 	* Method to initiate the wrong trail event
 	* @return Returns a boolean if the wrong trail is taken. Totally random chance every time this is called.
@@ -74,16 +104,35 @@ public class randomEvents {
 	}
 
 	/**
-	 * Has the husband come back with a random amount of food and has the player roll to see if this can be improved. 
-	 * Gets called once a week. 
+	 * Husband comes back with a semi random amount of food.
+	 * @param childHelp
+	 * @return foodHunted
+	 */
+	public int foodHunted(boolean childHelp) {
+		int foodHunted = rand.nextInt(30,100);
+		if(childHelp){
+			foodHunted += 20;
+		}
+
+		return(foodHunted);
+	}
+
+	/**
+	 * Has player cook and preserve hunted food to get the edible amount of food available.
+	 * Gets called after foodHunted. 
+	 * @param foodHunted
 	 * @param cookMod
+	 * @param childHelp
 	 * @return foodGained
 	 */
-	public int cookingMinigame(int cookMod) {
-		
-		int foodHunted = rand.nextInt(30,100);
+	public int cookingMinigame(int foodHunted, int cookMod, boolean childHelp) {
+
 		int cookRoll = roll();
 		int cookFinal = cookRoll + cookMod;
+		if(childHelp){
+			cookFinal += 2;
+		}
+
 		int foodGained = 0;
 
 		System.out.println("Your husband comes back from hunting with " + foodHunted + " lbs of food.");

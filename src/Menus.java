@@ -338,7 +338,6 @@ public class Menus {
 		
 	}
 	
-	
     /**
      * Allows the player to make a choice from amountPrompt
      * @return choice
@@ -347,4 +346,30 @@ public class Menus {
 		int choice = sc.nextInt();
 		return choice;
 	}
+
+	public void stuck(int itemType) {
+
+		switch(itemType) {
+			case 5:
+			System.out.println("Your wagon's wheel broke.");
+			break;
+			case 6:
+			System.out.println("Your wagon's axle broke.");
+			break;
+			case 7:
+			System.out.println("Your wagon's tongue broke.");
+			break;
+		}
+
+		System.out.println("You don't have the necessary part to fix it!");
+
+	}
+
+	public void stuckPace() {
+
+		System.out.println("Your wagon is broken! You're stuck.");
+		System.out.println("You have to wait for someone to come along.");
+		
+	}
+
 }
