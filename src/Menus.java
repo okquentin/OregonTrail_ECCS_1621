@@ -347,8 +347,7 @@ public class Menus {
 		return choice;
 	}
 
-<<<<<<< HEAD
-	public void stuck(int itemType) {
+	public void stuckPrompt(int itemType) {
 
 		switch(itemType) {
 			case 5:
@@ -373,7 +372,7 @@ public class Menus {
 		
 	}
 
-=======
+
     /**
      * Allows the player to choose to exit inventory prompt
      * @return exit
@@ -384,5 +383,4 @@ public class Menus {
 		else{}
 		return exit;
 	}
->>>>>>> Quentin
 }

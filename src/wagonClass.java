@@ -81,7 +81,7 @@
 	 * Takes the item wanted and the number of forts passed to return that item's price.
 	 * @param itemNumber
 	 * @param fortsPassed
-	 * @return itemPricez
+	 * @return itemPrice
 	 */
 	private double storeItemPrice (int itemNumber, int fortsPassed) {
 		
@@ -167,7 +167,7 @@
 		}
 		
 		String inventory = 	amountOfAnItem[1] 	+ " pairs of Oxen" + "\n" +
-							food 			+ " lb. of Food" + "\n" +
+							food 			    + " lb. of Food" + "\n" +
 							amountOfAnItem[3] 	+ " sets of Clothes" + "\n" +
 							amountOfAnItem[4] 	+ " boxes of Ammo" + "\n" +
 							amountOfAnItem[5] 	+ " Wagon Wheels" + "\n" +

@@ -6,7 +6,7 @@ import java.util.Random;
 * main to actually interact with other classes in the program
 */
 
-public class randomEvents {
+public class Events {
 	//injuries are handled by player
 	Random rand = new Random();
 
@@ -15,7 +15,7 @@ public class randomEvents {
 	 * @return rollResult
 	 */
 	public int roll() {
-		int rollResult = rand.nextInt(1,20);
+		int rollResult = rand.nextInt(20)+1;
 		return(rollResult);
 	}
 
@@ -37,6 +37,18 @@ public class randomEvents {
 	else{
 	return false;
 	}
+	}
+
+	public boolean badWater(){
+		return false;
+	}
+
+	public boolean littleWater(){
+		return false;
+	}
+
+	public boolean roughTrail(){
+		return false;
 	}
 
 	/**
@@ -109,7 +121,7 @@ public class randomEvents {
 	 * @return foodHunted
 	 */
 	public int foodHunted(boolean childHelp) {
-		int foodHunted = rand.nextInt(30,100);
+		int foodHunted = rand.nextInt(70)+30;
 		if(childHelp){
 			foodHunted += 20;
 		}

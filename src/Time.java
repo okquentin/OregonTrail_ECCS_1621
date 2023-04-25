@@ -31,8 +31,8 @@ public class Time {
     }
     
     /**
-     * Runs each time the day is advanced
-     * Increments day, generates weather, and travels the player along the map
+     * Runs each time the day is advanced:  
+     * increments day, generates weather, and travels the player along the map
     */
     public void newDay(){
     	int terrain = map.terrain;
@@ -55,11 +55,15 @@ public class Time {
 	    	case 1:
 	    		int temp = rand.nextInt(10)+1;
     			for(int i = 0; i < temp; i++) {
-	    			System.out.println("You are attemping to ford to the river...");
+	    			System.out.println("You are attemping to ford to the river... (Press Any Key to Continue)");
+                    String cross = null;
+                    while(cross == null){
+                        sc.next();
+                    }
 	    				
 		    		if(map.riverDepth >= 10) {
 		        		int tempRand = rand.nextInt(100);
-		        		if(tempRand % 10 == 0){
+		        		if(tempRand <= 10){
 		        			map.drown = true;
 		        			crossed = false;
 		        			break;

@@ -3,7 +3,7 @@
  * Player is used to create and manage the human characters that the user is responsible for.
  */
 import java.util.Random;
-public class Player {
+public class Character {
     String name;
     boolean isDead;
     boolean diseaseStatus;
@@ -26,7 +26,7 @@ public class Player {
     double hungerHealthFactor = 0.5;
     double healFactor = 0.9;
    
-    public Player(){
+    public Character(){
         isDead = false;
         diseaseStatus = false;
         injuryStatus = false;

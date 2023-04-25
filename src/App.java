@@ -13,8 +13,14 @@ public class App {
 		// Object instantiations
 		Time tm = new Time();
 		Menus men = new Menus();
-		Player player = new Player();
-		randomEvents events = new randomEvents();
+		Character player = new Character();
+		Character husband = new Character();
+		Character child1 = new Character();
+		Character child2 = new Character();
+		Character child3 = new Character();
+		Character child4 = new Character();
+
+		Events events = new Events();
 		wagonClass wagon = new wagonClass();
 		
 		// To end the game play loop
@@ -23,9 +29,10 @@ public class App {
 		boolean childDeath = false;
 		
 		// Parameters to pass into methods
-		int currDay, currPace, currDistance, dayChoice, currTerrain, riverDepth, riverLength, temperature, fortsPassed, currRation, playerCount, partLoss;
+		int currDay, currPace, currDistance, dayChoice, currTerrain, riverDepth, riverLength, temperature, fortsPassed, currRation, partLoss, daysHungry = 0;
+		int playerCount = 6;
 		boolean badWater, littleWater, roughTrail, oxenDeath, wrongTrail, noParts, wagonStuck = false;
-		double health;
+		double playerHealth = 0;
 		String currWeather, currRiver, currTown, storeInventory;
 		
 		// Beginning of Game
@@ -43,15 +50,7 @@ public class App {
 			riverLength = tm.getLength();
 			temperature = tm.getTemperature();
 			currRation = tm.getRation();
-			health = player.healthCheck(currPace, badWater, littleWater, roughTrail);
 
-			// Check for if player is dead
-			if(player.isDead){
-				gameEnd = true;
-				playerDeath = true;
-			}
-			if(gameEnd == true){break;}
-			
 			// Determining when landmarks are reached
 			currTown = tm.getTown();
 			currWeather = tm.getWeather();
@@ -74,11 +73,11 @@ public class App {
 			
 			// Town visit check
 			if(currTerrain == 3) {
-				currTown = tm.getTown();
-				if(currTown == "Ash Hollow") {gameEnd = true;}
-				fortsPassed = tm.getFortsPassed();
-				
 				boolean visitShop, exitTown;
+
+				currTown = tm.getTown();
+				if(currTown == "Willamette Valley") {gameEnd = true; break;}
+				fortsPassed = tm.getFortsPassed();
 				
 				men.townPrompt(currTown);
 				int townChoice = men.townChoice();
@@ -128,23 +127,27 @@ public class App {
 			} // End of town visit
 			
 			// Allows the game to end once Oregon is reached
-			
-			// Checks for random event to occur
+			if(gameEnd == true){break;}
+
+			// Checks for events to occur
 			oxenDeath = events.oxenDeath(currPace, currDistance);
 			partLoss = events.partLoss();
 			wrongTrail = events.wrongTrail();
-
 			noParts = wagon.inventorySubtractor(partLoss, 1);
+			badWater = events.badWater();
+			littleWater = events.littleWater();
+			roughTrail = events.roughTrail();
 
-			if(noParts){
-				menus.stuck(partLoss);
-				wagonStuck = true;
-			}
-			
 			// Oxen death (not implemented for now)
 			if(oxenDeath == true) {
 				int blank = 0;
 			}
+
+			if(noParts){
+				wagonStuck = true;
+				men.stuckPrompt(partLoss);
+			}
+			
 			// Wrong trail (not implemented for now)
 			if(wrongTrail == true) {
 				int blank = 0;
@@ -164,12 +167,27 @@ public class App {
 
 
 			}
-			if(wagon.food == 0){
+
+			// Starvation Mechanic
+			if(wagon.food == 0){daysHungry++;}
+			else{daysHungry = 0;}
+			if(daysHungry > 3){
 				playerDeath = true;
 				gameEnd = true;
 			}
+
+			// Check for player deaths
+			while(playerCount > 0){
+				if(player.isDead){
+					gameEnd = true;
+					playerDeath = true;
+				}
+				if(gameEnd == true){break;}
+		}
+			
 			
 			// Daily prompt for advancing the game
+			playerHealth = player.healthCheck(currPace, badWater, littleWater, roughTrail);
 			men.dayPrompt();
 			dayChoice = men.dayChoice();
 			
@@ -182,7 +200,7 @@ public class App {
 					men.pacePrompt();
 					currPace = men.paceChoice();
 					if(wagonStuck){
-						menus.stuckPace();
+						men.stuckPace();
 						break;
 					}
 					tm.setPace(currPace);
@@ -191,8 +209,6 @@ public class App {
 					men.rationPrompt();
 					currRation = men.rationChoice();
 					tm.setRation(currRation);
-					
-
 					break;	
 				case 4:
 					tm.newDay();

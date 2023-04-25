@@ -41,8 +41,11 @@ public class Map {
 	    public int distKearny = 260;
 	    public boolean visitKearny;
 	    
-	    public int distAH = 480; // END OF MVP
+	    public int distAH = 480;  // Ash Hollow
 	    public boolean visitAH;
+
+		public int distWV = 1000; // Willamette Valley (END OF GAME)
+		public boolean visitWV;
 
 	    /**
 	     * Constructor for Map class
