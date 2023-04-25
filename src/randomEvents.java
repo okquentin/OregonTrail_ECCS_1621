@@ -9,6 +9,17 @@ import java.util.Random;
 public class randomEvents {
 	//injuries are handled by player
 	Random rand = new Random();
+
+
+	/**
+	 * Rolls a d20. 
+	 * @return rollResult
+	 */
+	public int roll() {
+		int rollResult = rand.nextInt(1,20);
+		return(rollResult);
+	}
+
 	/**
 	* Method to kill oxen
 	* @param pace Passed from Map, responsible for chance calculation
@@ -30,22 +41,25 @@ public class randomEvents {
 	}
 	/**
 	* Method to initiate the wagon part loss/destruction
-	* @param pace Passed from Map, responsible for chance calculation
-	* @param distanceTraveled Passed from Map, responsible for chance calculation
-	* @param temperature Passed from Map, responsible for chance calculation. Uses modulo to avoid any errors in division
-	* @return Returns a boolean if a part is lost or not
+	* @return whichPart
 	*/
-	public boolean partLoss(int pace, int distanceTraveled, int temperature){
-	int chance = 500;
-	chance -= (pace - 1) * 10;
-	chance -= (distanceTraveled);
-	int partLoss = rand.nextInt(100);
-	if(partLoss == 2){
-	return true;
-	}
-	else{
-	return false;
-	}
+	public int partLoss() {
+
+		int partLoss = rand.nextInt(100);
+		int whichPart = rand.nextInt(3);
+		if(partLoss == 1){
+			switch(whichPart) {
+				case 1: // Wheel
+				return(5);
+
+				case 2: // Axle
+				return(6);
+
+				case 3: // Tongue
+				return(7);
+			}
+		}
+		return(0);
 	}
 	/**
 	* Method to initiate the wrong trail event
@@ -68,32 +82,33 @@ public class randomEvents {
 	public int cookingMinigame(int cookMod) {
 		
 		int foodHunted = rand.nextInt(30,100);
-		int cookRoll = rand.nextInt(1,20);
-		int cookTotal = cookRoll + cookMod;
+		int cookRoll = roll();
+		int cookFinal = cookRoll + cookMod;
 		int foodGained = 0;
 
 		System.out.println("Your husband comes back from hunting with " + foodHunted + " lbs of food.");
 		System.out.println("You decide to cook and preserve the food.");
-		System.out.println("You roll a " + cookRoll + " plus " + cookMod + " to get a total of " + cookTotal + ".");
+		System.out.println("You roll a " + cookRoll + " plus " + cookMod + " results in " + cookFinal + ".");
 
 		if(cookRoll == 1) {
 			foodGained = foodHunted / 2;
+			System.out.println("You ruined it! ");
 		}
 		else if(cookRoll == 20) {
 			foodGained = foodHunted * 2;
+			System.out.println("Wow! It's delicious!");
 		}
 		else {
-			foodGained = foodHunted + (cookTotal - 10) * 2;
-		}
-
-		if(foodGained == foodHunted) {
-			System.out.println("You did an alright job.");
-		}
-		else if(foodGained > foodHunted) {
-			System.out.println("You did a great job!");
-		}
-		else {
-			System.out.println("...Ew...");
+			foodGained = foodHunted + (cookFinal - 10) * 2;
+			if(foodGained == foodHunted) {
+				System.out.println("You did an alright job.");
+			}
+			else if(foodGained > foodHunted) {
+				System.out.println("You did a great job!");
+			}
+			else {
+				System.out.println("...Ew...");
+			}
 		}
 
 		System.out.println("This resulted in " + foodGained + "lbs of food for you and your family.");
