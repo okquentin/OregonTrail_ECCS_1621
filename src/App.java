@@ -13,7 +13,6 @@ public class App {
 		// Object instantiations
 		Time tm = new Time();
 		Menus men = new Menus();
-		storeClass store = new storeClass();
 		Player player = new Player();
 		randomEvents events = new randomEvents();
 		wagonClass wagon = new wagonClass();
@@ -92,10 +91,10 @@ public class App {
 				while(visitShop == true) {	
 					int shopChoice, amountChoice;
 					
-					men.displayInventory(store.getInventory()); // Displaying inventory before shopping
+					men.displayInventory(wagon.getInventory()); // Displaying inventory before shopping
 					
 					// Prompting the player for purchasing items
-					storeInventory = store.getStoreInventory(fortsPassed);
+					storeInventory = wagon.getStoreInventory(fortsPassed);
 					men.shopPrompt(storeInventory);
 					shopChoice = men.shopChoice();
 					visitShop = tm.townVisit(shopChoice);
@@ -105,14 +104,14 @@ public class App {
 					// Prompting the player for choosing quantity of purchase
 					men.amountPrompt();
 					amountChoice = men.amountChoice();
-					store.moneySpentPerItem(shopChoice, amountChoice, fortsPassed);
-					store.addItemsToWagon(shopChoice, amountChoice);
+					wagon.moneySpentPerItem(shopChoice, amountChoice, fortsPassed);
+					wagon.addItemsToWagon(shopChoice, amountChoice);
 					
 					// Instantiating new Ox objects when buying them
-					int numOx = store.getAmountOfItem(1); // See storeClass.getInventory for item index # 
+					int numOx = wagon.getAmountOfItem(1); // See storeClass.getInventory for item index # 
 					Oxen myOx[] = new Oxen[numOx];
 					if(numOx > 0) {
-						for(int i = 0; i < (store.getAmountOfItem(1)); i++){myOx[i] = new Oxen();}
+						for(int i = 0; i < (wagon.getAmountOfItem(1)); i++){myOx[i] = new Oxen();}
 					}
 				} // End of shop visit
 				
@@ -165,7 +164,7 @@ public class App {
 			
 			switch(dayChoice) {
 				case 1:
-					men.displayInventory(store.getInventory());
+					men.displayInventory(wagon.getInventory());
 					break;
 				case 2:
 					men.pacePrompt();
