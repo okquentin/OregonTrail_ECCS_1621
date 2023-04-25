@@ -20,9 +20,12 @@ public class App {
 		// To end the game play loop
 		boolean gameEnd = false;
 		boolean playerDeath = false;
+		boolean childDeath = false;
 		
 		// Parameters to pass into methods
-		int currDay, currPace, currDistance, dayChoice, currTerrain, riverDepth, riverLength, temperature, fortsPassed, currRation, playerCount;
+		int currDay, currPace, currDistance, dayChoice, currTerrain, riverDepth, riverLength, temperature, fortsPassed, currRation, playerCount, partLoss;
+		boolean badWater, littleWater, roughTrail, oxenDeath, wrongTrail, noParts, wagonStuck = false;
+		double health;
 		String currWeather, currRiver, currTown, storeInventory;
 		
 		// Beginning of Game
@@ -40,22 +43,21 @@ public class App {
 			riverLength = tm.getLength();
 			temperature = tm.getTemperature();
 			currRation = tm.getRation();
-			playerCount = 1;
-			if(player.isDead){playerCount -= 1;}
-			if(playerCount == 0){
-				gameEnd = true;
+			health = player.healthCheck(currPace, badWater, littleWater, roughTrail);
 
+			// Check for if player is dead
+			if(player.isDead){
+				gameEnd = true;
 				playerDeath = true;
 			}
+			if(gameEnd == true){break;}
 			
+			// Determining when landmarks are reached
 			currTown = tm.getTown();
 			currWeather = tm.getWeather();
 			currRiver = tm.getRiver();
-			
-			men.displayDay(currDay, currPace, currTerrain, currDistance, currRation, currWeather);
-
-			player.pace = currPace;
 	
+			men.displayDay(currDay, currPace, currTerrain, currDistance, currRation, currWeather);
 			
 			// River cross check
 			if(currTerrain == 2) {
@@ -125,29 +127,29 @@ public class App {
 				else {continue;}
 			} // End of town visit
 			
-			// Allows the game to end once Ash Hollow is reached
+			// Allows the game to end once Oregon is reached
 			
 			// Checks for random event to occur
-			boolean oxenDeath, partLoss, wrongTrail = false;
 			oxenDeath = events.oxenDeath(currPace, currDistance);
-			partLoss = events.partLoss(currPace, currDistance, temperature);
+			partLoss = events.partLoss();
 			wrongTrail = events.wrongTrail();
+
+			noParts = wagon.inventorySubtractor(partLoss, 1);
+
+			if(noParts){
+				menus.stuck(partLoss);
+				wagonStuck = true;
+			}
 			
 			// Oxen death (not implemented for now)
 			if(oxenDeath == true) {
 				int blank = 0;
 			}
-			
-			// Part loss (not implemented for now)
-			if(partLoss == true) {
-				int blank  = 0;
-			}
-			// Wrong rail (not implemented for now)
+			// Wrong trail (not implemented for now)
 			if(wrongTrail == true) {
 				int blank = 0;
 			}
 			
-			if(gameEnd == true) {break;}
 			//Player Hunger
 			switch(currRation){
 				case 0:
@@ -171,6 +173,7 @@ public class App {
 			men.dayPrompt();
 			dayChoice = men.dayChoice();
 			
+			// Allows player to choose what to do each day
 			switch(dayChoice) {
 				case 1:
 					men.displayInventory(wagon.getInventory());
@@ -178,6 +181,10 @@ public class App {
 				case 2:
 					men.pacePrompt();
 					currPace = men.paceChoice();
+					if(wagonStuck){
+						menus.stuckPace();
+						break;
+					}
 					tm.setPace(currPace);
 					break;
 				case 3:
