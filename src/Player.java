@@ -2,19 +2,22 @@
  * @author Anthony
  * Player is used to create and manage the human characters that the user is responsible for.
  */
+import java.util.Random;
 public class Player {
     String name;
     boolean isDead;
+    boolean diseaseStatus;
+    boolean injuryStatus;
     int score;
     char type;
     double health = 0;
-    int pace;
     int daysWithoutRest;
     int hunger;
     int rationSize;
     int clothingQual;
     int diseasedDays = 11;
     int injuredDays = 31;
+    Random rand = new Random();
     
    
     // buffs and debuffs (future use)
@@ -23,6 +26,11 @@ public class Player {
     double hungerHealthFactor = 0.5;
     double healFactor = 0.9;
    
+    public Player(){
+        isDead = false;
+        diseaseStatus = false;
+        injuryStatus = false;
+    }
    
     // health code
    
@@ -32,10 +40,27 @@ public class Player {
      * Resets diseasedDays, which is used in other methods
      * @return Returns True
      */
-    public boolean disease() {
+    public int childHarm(){
+        int chance = rand.nextInt(100);
+        if(chance <= 5){
+            isDead = true;
+            return 1;
+        }
+        if(chance <= 10 ){
+            injured();
+            return 2;
+        }
+        if(chance <= 20){
+            disease();
+            return 3;
+        }
+        return  0;
+    }
+
+    public void disease() {
         health += 20;
         diseasedDays = 0;
-        return true;
+        diseaseStatus = true;
     }
 
     public void eating(int pace){
@@ -51,9 +76,9 @@ public class Player {
      * Used in the same way as disease(), just for injuries
      * @return Returns True when called.
      */
-    public boolean injured() {
+    public void injured() {
         injuredDays = 0;
-        return true;
+        injuryStatus = true;
     }
    
     /**
@@ -67,9 +92,11 @@ public class Player {
     public double healthCheck(int pace, boolean badWater, boolean littleWater, boolean roughTrail) {
         if(diseasedDays < 11) {
             health += 1;
+            diseasedDays++;
         }
         if(injuredDays < 31) {
             health += injuryFactor;
+            injuredDays++;
         }
        
         //these are all special circumstances, should also only run once a day
