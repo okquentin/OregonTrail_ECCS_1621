@@ -42,6 +42,12 @@ public class App {
 			temperature = tm.getTemperature();
 			currRation = tm.getRation();
 			playerCount = 1;
+			if(player.isDead){playerCount -= 1;}
+			if(playerCount == 0){
+				gameEnd = true;
+
+				playerDeath = true;
+			}
 			
 			currTown = tm.getTown();
 			currWeather = tm.getWeather();
@@ -157,7 +163,10 @@ public class App {
 
 
 			}
-			if(wagon.food == 0){playerDeath = true;}
+			if(wagon.food == 0){
+				playerDeath = true;
+				gameEnd = true;
+			}
 			
 			// Daily prompt for advancing the game
 			men.dayPrompt();
