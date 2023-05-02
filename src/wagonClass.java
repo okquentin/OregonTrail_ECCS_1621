@@ -197,4 +197,24 @@
 		return(numberOfAnItem);
 			 
 	}
+
+	public double getScore (int peopleAlive) {
+
+		double score = 0;
+	
+		score = money;
+		for(int i=0; i<8; i++) {
+			if (i==2) {
+				score += food;
+			}
+			else {
+				score += getAmountOfItem(i) * storeItemPrice(i,0);
+			}
+		}
+		score += peopleAlive * 1000;
+	
+		return(score);
+	
+	}
+
 }
