@@ -211,7 +211,7 @@
 				score += getAmountOfItem(i) * storeItemPrice(i,0);
 			}
 		}
-		score += peopleAlive*1000;
+		score += peopleAlive * 1000;
 	
 		return(score);
 	
