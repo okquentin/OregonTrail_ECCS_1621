@@ -11,9 +11,9 @@ public class App {
 	public static void main(String[] args) {
 		
 		// Object instantiations
-		Ascii art = new Ascii();
 		Time tm = new Time();
 		Menus men = new Menus();
+		Ascii art = new Ascii();
 		Character player = new Character();
 		Character husband = new Character();
 		Character child1 = new Character();
@@ -36,8 +36,9 @@ public class App {
 		double playerHealth = 0;
 		String currWeather, currRiver, currTown, storeInventory;
 		
+		// Acii Art File List
+
 		// Beginning of Game
-		art.plainsView();
 		men.gameWelcome();
 		tm.newDay();
 		

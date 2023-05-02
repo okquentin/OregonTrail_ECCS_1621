@@ -1,7 +1,15 @@
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
 
 /**
  * Provides ASCII output for the text-based game UI
+ * 
+ * File Index
+ * ---------
+ * (0) file1: Wagon
+ * (1) file2: Plains Landscape
  * 
  * @author Quentin Osterhage
  * @version MVP
@@ -9,34 +17,20 @@ import java.util.Scanner;
  */
 
  public class Ascii{
+    
+    int numArt = 2;
+    private File directory = new File("asciiSRC"); 
+    private File[] list = directory.listFiles();
 
-    public void plainsView(){
-        String art = """
-            /||\
-            ||||
-            ||||                      _____.-..-.
-            |||| /|\               .-~@@/ / q  p \
-       /|\  |||| |||             .'@ _@/..\-.__.-/
-       |||  |||| |||            /@.-~/|~~~`\|__|/
-       |||  |||| |||            |'--<||     '~~'
-       |||  |||| d||            |>--<\@\
-       |||  |||||||/            \>---<\@`\.
-       ||b._||||~~'              `\>---<`\@`\.
-       \||||||||                   `\>----<`\@`\.
-        `~~~||||               _     `\>-----<`\@`\.
-            ||||              (_)      `\>-----<`\.@`\.
-            ||||              (_)        `\>------<`\.@`\.
-~~~~~~~~~~~~~~~~||||~~~~~~~~~~~~~~(__)~~~~~~~~~`\>-------<`\.@`\~~~~~~~~~~~~~
-\/..__..--  . |||| \/  .  ..____( _)@@@--..____\..--\@@@/~`\@@>-._   \/ .
-\/         \/ \/    \/     / - -\@@@@--@/- - \@@@/ - - \@/- -@@@@/- \.   --._
-.   \/    _..\/-...--.. |- - -\@@/ - -\@@@@/~~~~\@@@@/- - \@@/- - |   .\/
-    .  \/              | - - -@@ - - -\@@/- - - \@@/- - - @@- - -|      .
-. \/             .   \/     ~-.__ - - - - -@@- - - - @@- - - - -__.-~  . \/
-__...--..__..__       .  \/   ~~~--..____- - - - -____..--~~~    \/_..--..
-\/  .   .    \/     \/    __..--... \/      ~~~~~~~~~     \/ . \/  .
-                """;
 
-        System.out.println(art);
+
+    public boolean printArt(int artIndex) throws FileNotFoundException{
+        if(list[artIndex].isFile())
+        
+        Scanner scan = new Scanner(list[artIndex]);
+
+        return false;
     }
 
- }
+
+ 
