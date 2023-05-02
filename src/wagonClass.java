@@ -203,7 +203,7 @@
 		double score = 0;
 	
 		score = money;
-		for(int i=0; i<8; i++) {
+		for(int i=1; i<8; i++) {
 			if (i==2) {
 				score += food;
 			}

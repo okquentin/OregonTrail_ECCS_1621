@@ -177,6 +177,30 @@ public class Events {
 		return(foodGained);
 	}
 
+	public void NPC() {
+
+		int whichOne = rand.nextInt(3);
+
+		switch (whichOne) {
+			case 1:
+			System.out.println("You pass another family on the trail.");
+			System.out.println("You eat together that night and share some tips and tricks.");
+			System.out.println("In the morning, you go your seperate ways.");
+			break;
+
+			case 2:
+			System.out.println("You hear some wolves in the distance.");
+			System.out.println("You decide to avoid that.");
+			break;
+
+			case 3:
+			System.out.println("You pass a small grave site.");
+			System.out.println("You pay your respects and move on.");
+			break;
+		}
+
+	}
+
 }
 
 
