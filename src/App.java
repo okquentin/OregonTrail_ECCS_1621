@@ -1,3 +1,6 @@
+import java.io.FileNotFoundException;
+import java.io.File;
+
 /**
  * Class: App.java
  * 
@@ -13,6 +16,7 @@ public class App {
 		// Object instantiations
 		Time tm = new Time();
 		Menus men = new Menus();
+		Ascii art = new Ascii();
 		Character player = new Character();
 		Character husband = new Character();
 		Character child1 = new Character();
@@ -27,16 +31,18 @@ public class App {
 		boolean gameEnd = false;
 		boolean playerDeath = false;
 		boolean childDeath = false;
-		
+
 		// Parameters to pass into methods
-		int currDay, currPace, currDistance, dayChoice, currTerrain, riverDepth, riverLength, temperature, fortsPassed, currRation, partLoss, daysHungry = 0;
+		int currDay, currPace, currDistance, dayChoice, currTerrain, riverDepth, riverLength, temperature, fortsPassed, currRation, partLoss, artIndex, daysHungry = 0;
 		int playerCount = 6;
 		boolean badWater, littleWater, roughTrail, oxenDeath, wrongTrail, noParts, wagonStuck = false;
 		double playerHealth = 0;
 		String currWeather, currRiver, currTown, storeInventory;
-		
+
 		// Beginning of Game
-		men.gameWelcome();
+		try {art.printArt(0);} 
+		catch (FileNotFoundException e) {e.printStackTrace();}
+		
 		tm.newDay();
 		
 		while(gameEnd == false) {
