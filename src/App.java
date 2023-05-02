@@ -11,6 +11,7 @@ public class App {
 	public static void main(String[] args) {
 		
 		// Object instantiations
+		Ascii art = new Ascii();
 		Time tm = new Time();
 		Menus men = new Menus();
 		Character player = new Character();
@@ -36,6 +37,7 @@ public class App {
 		String currWeather, currRiver, currTown, storeInventory;
 		
 		// Beginning of Game
+		art.plainsView();
 		men.gameWelcome();
 		tm.newDay();
 		
