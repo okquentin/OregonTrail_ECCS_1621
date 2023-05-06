@@ -464,7 +464,6 @@ public class Menus {
 		
 	}
 
-
     /**
      * Allows the player to choose to exit inventory prompt
      * @return exit
@@ -475,4 +474,58 @@ public class Menus {
 		else{}
 		return exit;
 	}
+
+	public void wrongTrailDisplay() {
+
+		System.out.println("You went down the wrong trail!");
+		System.out.println("You backtracked 30 miles.");
+
+	}
+
+	public void robberDisplay(int whichItem) {
+
+		System.out.println("A theif came in the night!");
+		switch(whichItem) {
+			case 1: // Oxen
+			System.out.println("They took a pair of oxen!");
+			break;
+
+			case 3: // Clothes
+			System.out.println("They took a set of clothes!");
+			System.out.println("I guess they were cold.");
+			break;
+
+			case 5: // Wheel
+			System.out.println("They took a wagon wheel!");
+			break;
+
+			case 6: // Axle
+			System.out.println("They took a wagon axle!");
+			break;
+
+			case 7: // Tongue
+			System.out.println("They took a wagon tongue!");
+			break;
+		}
+
+	}
+
+	public void partBrokeDisplay(int whichItem) {
+
+		switch(whichItem) {
+			case 5: // Wheel
+			System.out.println("Your wagon's wheel broke!");
+			break;
+
+			case 6: // Axle
+			System.out.println("Your wagon's axle broke!");
+			break;
+
+			case 7: // Tongue
+			System.out.println("Your wagon's tongue broke!");
+			break;
+		}
+
+	}
+
 }
