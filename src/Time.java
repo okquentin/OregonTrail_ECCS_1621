@@ -42,7 +42,6 @@ public class Time {
         if(day > 1) {map.travel();}
     }
     
-    
     /**
      * Allows player to choose how to cross river (or travel around it)
      * @param choice 
@@ -55,22 +54,18 @@ public class Time {
 	    	case 1:
 	    		int temp = rand.nextInt(10)+1;
     			for(int i = 0; i < temp; i++) {
-	    			System.out.println("You are attemping to ford to the river... (Press Any Key to Continue)");
-                    String cross = null;
-                    while(cross == null){
+	    			System.out.println("You are attemping to ford to the river... (Type Any Key to Continue)");
                         sc.next();
-                    }
-	    				
-		    		if(map.riverDepth >= 10) {
-		        		int tempRand = rand.nextInt(100);
-		        		if(tempRand <= 10){
-		        			map.drown = true;
-		        			crossed = false;
-		        			break;
-		        		}
-		        		else {crossed = true;}	
-		    		}
-		    		else {crossed = true;}
+                        if(map.riverDepth >= 10) {
+                            int tempRand = rand.nextInt(100);
+                                if(tempRand <= 10){
+                                    map.drown = true;
+                                    crossed = false;
+                                    break;
+                                }
+                                else {crossed = true;}	
+                        }
+                        else{crossed = true;}
     			}
 		    	break;
 		    	
