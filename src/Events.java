@@ -57,19 +57,19 @@ public class Events {
 
 		int partLoss = rand.nextInt(100);
 		int whichPart = rand.nextInt(3);
-		if(partLoss == 1){
+		if(partLoss <= 1){
 			switch(whichPart) {
-				case 1: // Wheel
+				case 0: // Wheel
 				return(5);
 
-				case 2: // Axle
+				case 1: // Axle
 				return(6);
 
-				case 3: // Tongue
+				case 2: // Tongue
 				return(7);
 			}
 		}
-		return(0);
+		return(3);
 	}
 
 	/**
@@ -107,7 +107,8 @@ public class Events {
 	* @return Returns a boolean if the wrong trail is taken. Totally random chance every time this is called.
 	*/
 	public boolean wrongTrail(){
-		if(rand.nextInt(40) == 1){return true;}
+		int temp = rand.nextInt(100);
+		if(temp <= 3){return true;}
 		else{return false;}
 	}
 

@@ -20,7 +20,6 @@ public class Character {
     boolean injuryStatus;
     int health;
     int hunger;
-    int rationSize;
     int clothingQual;
     int diseasedDays = 11;
     int injuredDays = 31;
@@ -99,9 +98,6 @@ public class Character {
 
 
     }
-    public void setRation(int ration){
-        rationSize = ration;
-    }
    
     /**
      * Used in the same way as disease(), just for injuries
@@ -120,7 +116,7 @@ public class Character {
      * @param roughTrail Boolean that is used in a very similar way to the other booleans
      * @return Returns health of the player object
      */
-    public int healthCheck(int pace, boolean badWater, boolean littleWater, boolean roughTrail) {
+    public int healthCheck(int pace, boolean badWater, boolean littleWater, boolean roughTrail, int ration) {
        
         health = health - injuryFactor;
         //Controls for random world events
@@ -140,7 +136,7 @@ public class Character {
         }
    
     //Happen regardless of ailments
-    health -= rationSize;
+    health -= ration;
     health += (pace * 2);
 
     if(health < 0){health = 0;}

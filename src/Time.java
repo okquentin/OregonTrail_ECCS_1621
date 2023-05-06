@@ -151,22 +151,7 @@ public class Time {
                 break;
         }
     }
-    public void setRation(String rationString){
-        switch(rationString){
-            case "Bare Bones": 
-                map.ration = 0;
-                break;
-            
-            case "Meager": 
-                map.ration = 1;
-                break;
-            
-            case "Filling":
-                map.ration = 2;
-                break;
-            
-        }
-    }
+
     
     /**
      * Setter for travel pace
@@ -174,13 +159,9 @@ public class Time {
     */
     public void setPace(int pace) {map.pace = pace;}
 
-    public void setRation(int ration) {map.ration = ration;}
+    public void subtractDistance(int distance){map.distanceTraveled -= distance;}
     
-    /**
-     * Getter for current day 
-     * @return day
-    */
-    public int getRation() {return map.ration;}
+
     /**
      * Getter for current ration 
      * @return day

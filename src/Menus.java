@@ -403,7 +403,6 @@ public class Menus {
     */
 	public int townChoice() {
 		int choice = sc.nextInt();
-		
 
 		while(choice > 3 || choice < 1) {
 			System.out.println("Invalid input.");
@@ -437,24 +436,6 @@ public class Menus {
 	public int amountChoice() {
 		int choice = sc.nextInt();
 		return choice;
-	}
-
-	public void stuckPrompt(int itemType) {
-
-		switch(itemType) {
-			case 5:
-			System.out.println("Your wagon's wheel broke.");
-			break;
-			case 6:
-			System.out.println("Your wagon's axle broke.");
-			break;
-			case 7:
-			System.out.println("Your wagon's tongue broke.");
-			break;
-		}
-
-		System.out.println("You don't have the necessary part to fix it!");
-
 	}
 
 	public void stuckPace() {

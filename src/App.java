@@ -1,5 +1,4 @@
 import java.io.FileNotFoundException;
-import java.io.File;
 import java.util.Random;
 
 import javax.lang.model.util.ElementScanner14;
@@ -25,12 +24,14 @@ public class App {
 		wagonClass wagon = new wagonClass();
 
 		// Character Instantiations (See index at Character.java)
-		int numPlayer = 6;
+		int numPlayer = 7;
 		Character[] player = new Character[numPlayer];
 		for(int i = 0; i < numPlayer; i++){
 			player[i] = new Character();
 			player[i].setName(i);
 		}
+		
+
 		int[] playerHealth = new int[numPlayer];
 		for(int i = 0; i < numPlayer; i++){
 			playerHealth[i] = 0;
@@ -52,8 +53,7 @@ public class App {
 		boolean tragedy = false;
 
 		// Parameters to pass into methods
-		int currDay, currPace, currDistance, dayChoice, currTerrain, riverDepth, riverLength, fortsPassed, currRation, partLoss, artIndex, daysHungry = 0;
-		boolean badWater, littleWater, roughTrail, oxenDeath, wrongTrail, noParts, wagonStuck = false;
+		int currDay, currPace, currDistance, dayChoice, currTerrain, riverDepth, riverLength, fortsPassed, currRation, artIndex, food, daysHungry = 0;
 		String currWeather, currRiver, currTown, storeInventory;
 
 		// Skill Factor
@@ -74,7 +74,9 @@ public class App {
 			currTerrain = tm.getTerrain();
 			riverDepth = tm.getDepth();
 			riverLength = tm.getLength();
-			currRation = tm.getRation();
+			currRation = wagon.getRation();
+			food = wagon.getFood();
+			if(food < 0){food = 0;}
 			artIndex = currTerrain +2;
 
 			// Determining when landmarks are reached
@@ -119,7 +121,6 @@ public class App {
 				exitTown = tm.getExitTown();
 				if(exitTown) {
 					currPace = tm.getPace();
-					men.displayDay(currDay, currPace, currTerrain, currDistance, currRation, currWeather);
 				}
 				
 				// Shop visit check
@@ -158,7 +159,7 @@ public class App {
 			if(gameEnd == true){break;}
 			
 			// Hunting/Cooking Event every week
-			else if(currDay % 7 == 0){
+			else if(wagon.food < 30){
 				men.huntPrompt();
 				men.helpPrompt();
 				boolean choice = men.helpChoice();
@@ -183,63 +184,57 @@ public class App {
 				wagon.food += foodGained;
 			}
 
-			if(events.wrongTrail()){
-				men.wrongTrailDisplay();
-				// minus 30  miles
+			// Checks for events to occur
+			boolean oxenDeath = events.oxenDeath(currPace, currDistance);
+			int partBroke = events.partBroke();
+			int robbed = events.robber();
+			boolean wrongTrail = events.wrongTrail();
+			boolean badWater = events.badWater();
+			boolean littleWater = events.littleWater();
+			boolean roughTrail = events.roughTrail();
+			boolean wagonStuck = false;
+
+			// Part Breaking
+			if(partBroke < 3) {
+				men.partBrokeDisplay(partBroke);
+
+				if(wagon.getAmountOfItem(partBroke) == 0){
+					men.stuckPace();
+					tm.setPace(0);
+					wagonStuck = true;
+				}
+				else {
+					System.out.println("Your father was able to fix it and move on.");
+					wagon.inventorySubtractor(partBroke, 1);
+				}
 			}
 
-			int robbed = events.robber();
+			// Wrong Trail
+			if(wrongTrail){
+				men.wrongTrailDisplay();
+
+				// minus 30  miles
+				tm.subtractDistance(30);
+			}
+
+			// Inventory Robbed
 			if(robbed != 0){
 				men.robberDisplay(robbed);
 				wagon.inventorySubtractor(robbed, 1);
 			}
 
-			int partBroke = events.partBroke();
-			if(partBroke != 0) {
-				men.partBrokeDisplay(partBroke);
-				if(wagon.getAmountOfItem(partBroke) == 0){men.stuckPace();}
-				else {System.out.println("Your father was able to fix it and move on.");}
-			}
-
-			// Checks for events to occur
-			oxenDeath = events.oxenDeath(currPace, currDistance);
-			partLoss = events.partBroke();
-			wrongTrail = events.wrongTrail();
-			noParts = wagon.inventorySubtractor(partLoss, 1);
-			badWater = events.badWater();
-			littleWater = events.littleWater();
-			roughTrail = events.roughTrail();
 
 			// Oxen death Mechanic
 			if(oxenDeath == true) {
 				for(int i = 0; i < numOx; i++){myOx[i] = null;}
 			}
 
-			if(noParts){
-				wagonStuck = true;
-				men.stuckPrompt(partLoss);
-			}
 			
-			// Wrong trail (not implemented for now)
-			if(wrongTrail == true) {
-				int blank = 0;
-			}
-			
-			//Player Hunger
-			switch(currRation){
-				case 0:
-				wagon.food -= 1 * numPlayer;
-				break;
-				case 2:
-				wagon.food -= 2 * numPlayer;
-				break;
-				case 3:
-				wagon.food -= 3 * numPlayer;
-				break;
-			}
+			// Food Consumption
+			wagon.eat(currRation, numPlayer);
 
-			// Starvation Mechanic
-			if(wagon.food == 0){daysHungry++;}
+			// Starvation
+			if(food == 0){daysHungry++;}
 			else{daysHungry = 0;}
 			if(daysHungry > 3){
 				playerDeath = true;
@@ -248,7 +243,7 @@ public class App {
 			
 			// Health Checks for all Characters
 			for(int i = 0; i < numPlayer; i++){
-				playerHealth[i] = player[i].healthCheck(currPace, badWater, littleWater, roughTrail);
+				playerHealth[i] = player[i].healthCheck(currPace, badWater, littleWater, roughTrail, currRation);
 				System.out.println(playerHealth[i]);
 			}
 
@@ -257,7 +252,6 @@ public class App {
 				playerDeath = true;
 				gameEnd = true;
 			}
-
 			for(int i = 1; i < numPlayer; i++){
 				if(player[i].isDead && !death[i]){
 					men.characterDeath(i); 
@@ -271,12 +265,8 @@ public class App {
 			// Daily prompt for advancing the game
 			men.dayPrompt();
 			dayChoice = men.dayChoice();
-
-			// FOR DEBUG
 			
 			// Allows player to choose what to do each day
-			while(dayChoice != 4){
-				dayChoice = men.dayChoice();
 				switch(dayChoice) {
 					case 1:
 						men.displayInventory(wagon.getInventory());
@@ -293,13 +283,16 @@ public class App {
 					case 3:
 						men.rationPrompt();
 						currRation = men.rationChoice();
-						tm.setRation(currRation);
+						wagon.setRation(currRation);
 						break;	
 					case 4:
 						tm.newDay();
 						break;	
 				}
-			}	
+				if(dayChoice != 4) {
+					men.dayPrompt();
+					dayChoice = men.dayChoice();
+				}
 		}
 		// Chooses text display based upon game outcome 
 		if(playerDeath){men.gameDeath();}

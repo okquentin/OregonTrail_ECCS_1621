@@ -13,6 +13,7 @@
 	 
 	 public ArrayList<Integer> inventory = new ArrayList<Integer>();
 	 public int food = 100;
+	 int ration; // 0 = Bare Bones, 1 = Meager, 2 = Filling
 	 public double money = 865;
 	 
 	 /**
@@ -213,6 +214,41 @@
 	
 		return(score);
 	
+	}
+
+	public void setRation(String rationString){
+        switch(rationString){
+            case "Bare Bones": 
+                ration = 0;
+                break;
+            
+            case "Meager": 
+                ration = 1;
+                break;
+            
+            case "Filling":
+                ration = 2;
+                break;
+            
+        }
+    }
+
+    public void setRation(int choice) {ration = choice;}
+
+    public int getRation() {return ration;}
+
+	public void eat(int ration, int numPlayer){
+		switch(ration){
+			case 0:
+			food -= 1 * numPlayer;
+			break;
+			case 2:
+			food -= 2 * numPlayer;
+			break;
+			case 3:
+			food -= 3 * numPlayer;
+			break;
+		}
 	}
 
 }
