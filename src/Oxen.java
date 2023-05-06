@@ -20,9 +20,28 @@ public class Oxen {
 	int injuryFactor = 0;
 	double hungerHealthFactor = 0.5;
 	double healFactor = 0.9;
-	//Is this the same base as the player? yeah.
-	// health code
-	//this line should run once per day, regardless of ailments
+
+	public double healthCheck(){
+		if(diseasedDays < 11) {
+            health += 1;
+            diseasedDays++;
+        }
+        if(injuredDays < 31) {
+            health += injuryFactor;
+            injuredDays++;
+        }
+       
+        //these are all special circumstances, should also only run once a day
+        if (health > 140) {
+            isDead = true;
+        }
+
+		health = health * healFactor;
+		health += (pace * 2);
+		
+		return health;
+	}
+
 	/**
 	 * Adds to health variable which can be used in the future to kill the oxen. N
 	 * @return True, just in case it is needed in any class
@@ -32,6 +51,7 @@ public class Oxen {
 		diseasedDays = 0;
 		return true;
 	}
+
 	/**
 	 * Will handle oxen injury in the future
 	 * @return True if the oxen has the disease.

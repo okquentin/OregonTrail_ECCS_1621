@@ -12,9 +12,7 @@
  public class wagonClass {
 	 
 	 public ArrayList<Integer> inventory = new ArrayList<Integer>();
-	 
-	 public int food = 0;
-	 
+	 public int food = 100;
 	 public double money = 865;
 	 
 	 /**

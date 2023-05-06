@@ -26,17 +26,15 @@ public class Events {
 	* @return boolean if an oxen is killed or not
 	*/
 	public boolean oxenDeath(int pace, int distanceTraveled){
-	int distTraveled = distanceTraveled;
-	int bound = 100;
-	bound -= distTraveled/50;
-	bound -= (pace - 2);
-	int deathChance = rand.nextInt(bound);
-	if(deathChance == 2){
-	return true;
+		int distTraveled = distanceTraveled;
+		int bound = 100;
+		bound -= distTraveled/50;
+		bound -= (pace - 2);
+		int deathChance = rand.nextInt(bound);
+		if(deathChance == 2){
+		return true;
 	}
-	else{
-	return false;
-	}
+	else{return false;}
 	}
 
 	public boolean badWater(){
@@ -108,11 +106,8 @@ public class Events {
 	* @return Returns a boolean if the wrong trail is taken. Totally random chance every time this is called.
 	*/
 	public boolean wrongTrail(){
-	if(rand.nextInt(40) == 1){
-	return true;
-	}else{
-	return false;
-	}
+		if(rand.nextInt(40) == 1){return true;}
+		else{return false;}
 	}
 
 	/**
@@ -141,15 +136,17 @@ public class Events {
 
 		int cookRoll = roll();
 		int cookFinal = cookRoll + cookMod;
+		int helpMod = 0;
 		if(childHelp){
 			cookFinal += 2;
+			helpMod = 2;
 		}
 
 		int foodGained = 0;
-
-		System.out.println("Your husband comes back from hunting with " + foodHunted + " lbs of food.");
-		System.out.println("You decide to cook and preserve the food.");
-		System.out.println("You roll a " + cookRoll + " plus " + cookMod + " results in " + cookFinal + ".");
+		System.out.println("You roll a " + cookRoll);
+		System.out.println("Plus " + "cookXP: " + cookMod);
+		System.out.println("Plus" + " childMod: " + helpMod);
+		System.out.println("Results in " + cookFinal + ".");
 
 		if(cookRoll == 1) {
 			foodGained = foodHunted / 2;
@@ -179,9 +176,15 @@ public class Events {
 
 	public void NPC() {
 
-		int whichOne = rand.nextInt(3);
+		int whichOne = 0;
+		int temp = rand.nextInt(100)+1;
+
+		if(temp >= 80){whichOne = rand.nextInt(3);}
 
 		switch (whichOne) {
+			case 0:
+			break;
+
 			case 1:
 			System.out.println("You pass another family on the trail.");
 			System.out.println("You eat together that night and share some tips and tricks.");
@@ -189,8 +192,7 @@ public class Events {
 			break;
 
 			case 2:
-			System.out.println("You hear some wolves in the distance.");
-			System.out.println("You decide to avoid that.");
+			System.out.println("You hear the howl of wolves in the distance...");
 			break;
 
 			case 3:

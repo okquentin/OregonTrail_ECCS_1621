@@ -1,5 +1,6 @@
 import java.io.FileNotFoundException;
 import java.io.File;
+import java.util.Random;
 
 /**
  * Class: App.java
@@ -14,30 +15,47 @@ public class App {
 	public static void main(String[] args) {
 		
 		// Object instantiations
+		Random rand = new Random();
 		Time tm = new Time();
 		Menus men = new Menus();
 		Ascii art = new Ascii();
-		Character player = new Character();
-		Character husband = new Character();
-		Character child1 = new Character();
-		Character child2 = new Character();
-		Character child3 = new Character();
-		Character child4 = new Character();
-
 		Events events = new Events();
 		wagonClass wagon = new wagonClass();
-		
+
+		// Character Instantiations (See index at Character.java)
+		int numPlayer = 6;
+		Character[] player = new Character[numPlayer];
+		for(int i = 0; i < numPlayer; i++){
+			player[i] = new Character();
+			player[i].setName(i);
+		}
+		int[] playerHealth = new int[numPlayer];
+		for(int i = 0; i < numPlayer; i++){
+			playerHealth[i] = 0;
+		}
+		boolean[] death = new boolean[numPlayer];
+
+
+		int numOx = 1;
+		Oxen[] myOx = new Oxen[numOx];
+		double[] oxHealth = new double[numOx];
+		for(int i = 0; i < numOx; i++){
+			oxHealth[i] = 0;
+		}
+		boolean[] oxDeath = new boolean[numOx];
+
 		// To end the game play loop
 		boolean gameEnd = false;
 		boolean playerDeath = false;
-		boolean childDeath = false;
+		boolean tragedy = false;
 
 		// Parameters to pass into methods
-		int currDay, currPace, currDistance, dayChoice, currTerrain, riverDepth, riverLength, temperature, fortsPassed, currRation, partLoss, artIndex, daysHungry = 0;
-		int playerCount = 6;
+		int currDay, currPace, currDistance, dayChoice, currTerrain, riverDepth, riverLength, fortsPassed, currRation, partLoss, artIndex, daysHungry = 0;
 		boolean badWater, littleWater, roughTrail, oxenDeath, wrongTrail, noParts, wagonStuck = false;
-		double playerHealth = 0;
 		String currWeather, currRiver, currTown, storeInventory;
+
+		// Skill Factor
+		int cookMod = 0;
 
 		// Beginning of Game
 		try {art.printArt(0);} 
@@ -54,16 +72,18 @@ public class App {
 			currTerrain = tm.getTerrain();
 			riverDepth = tm.getDepth();
 			riverLength = tm.getLength();
-			temperature = tm.getTemperature();
 			currRation = tm.getRation();
+			artIndex = currTerrain +2;
 
 			// Determining when landmarks are reached
 			currTown = tm.getTown();
 			currWeather = tm.getWeather();
 			currRiver = tm.getRiver();
 	
+			try {art.printArt(artIndex);} 
+			catch (FileNotFoundException e) {e.printStackTrace();}
 			men.displayDay(currDay, currPace, currTerrain, currDistance, currRation, currWeather);
-			
+
 			// River cross check
 			if(currTerrain == 2) {
 				boolean cross;
@@ -78,7 +98,7 @@ public class App {
 			}
 			
 			// Town visit check
-			if(currTerrain == 3) {
+			else if(currTerrain == 3) {
 				boolean visitShop, exitTown;
 
 				currTown = tm.getTown();
@@ -121,11 +141,11 @@ public class App {
 					wagon.addItemsToWagon(shopChoice, amountChoice);
 					
 					// Instantiating new Ox objects when buying them
-					int numOx = wagon.getAmountOfItem(1); // See storeClass.getInventory for item index # 
-					Oxen myOx[] = new Oxen[numOx];
+					numOx += wagon.getAmountOfItem(1); // See storeClass.getInventory for item index # 
 					if(numOx > 0) {
 						for(int i = 0; i < (wagon.getAmountOfItem(1)); i++){myOx[i] = new Oxen();}
 					}
+
 				} // End of shop visit
 				
 				if(townChoice ==2) {}
@@ -134,6 +154,31 @@ public class App {
 			
 			// Allows the game to end once Oregon is reached
 			if(gameEnd == true){break;}
+			
+			// Hunting/Cooking Event every week
+			else if(currDay % 7 == 0){
+				men.huntPrompt();
+				men.helpPrompt();
+				boolean choice = men.helpChoice();
+				if(choice){
+					boolean hunt = false;
+					int temp = 0;
+					while(!hunt){
+						temp = rand.nextInt(4)+2;
+						if(!player[temp].isDead){hunt = true;}
+					}
+					int harm = player[temp].childHarm();
+					String name = player[temp].name;
+
+					men.displayHarm(harm, name);
+				}
+				int numHunted = events.foodHunted(choice);
+
+				men.cookPrompt(numHunted);
+				men.helpPrompt();
+				boolean choice2 = men.helpChoice();
+				events.cookingMinigame(numHunted, cookMod, choice2);
+			}
 
 			// Checks for events to occur
 			oxenDeath = events.oxenDeath(currPace, currDistance);
@@ -144,9 +189,9 @@ public class App {
 			littleWater = events.littleWater();
 			roughTrail = events.roughTrail();
 
-			// Oxen death (not implemented for now)
+			// Oxen death Mechanic
 			if(oxenDeath == true) {
-				int blank = 0;
+				for(int i = 0; i < numOx; i++){myOx[i] = null;}
 			}
 
 			if(noParts){
@@ -162,16 +207,14 @@ public class App {
 			//Player Hunger
 			switch(currRation){
 				case 0:
-				wagon.food -= 1 * playerCount;
+				wagon.food -= 1 * numPlayer;
 				break;
 				case 2:
-				wagon.food -= 2 * playerCount;
+				wagon.food -= 2 * numPlayer;
 				break;
 				case 3:
-				wagon.food -= 3 * playerCount;
+				wagon.food -= 3 * numPlayer;
 				break;
-
-
 			}
 
 			// Starvation Mechanic
@@ -181,21 +224,34 @@ public class App {
 				playerDeath = true;
 				gameEnd = true;
 			}
+			
+			// Health Checks for all Characters
+			for(int i = 0; i < numPlayer; i++){
+				playerHealth[i] = player[i].healthCheck(currPace, badWater, littleWater, roughTrail);
+				System.out.println(playerHealth[i]);
+			}
 
 			// Check for player deaths
-			while(playerCount > 0){
-				if(player.isDead){
-					gameEnd = true;
-					playerDeath = true;
+			if(player[0].isDead){
+				playerDeath = true;
+				gameEnd = true;
+			}
+
+			for(int i = 1; i < numPlayer; i++){
+				if(player[i].isDead && !death[i]){
+					men.characterDeath(i); 
+					death[i] = true;
+					tragedy = true;
 				}
-				if(gameEnd == true){break;}
-		}
-			
-			
+			}
+
+			if(gameEnd == true){break;}
+
 			// Daily prompt for advancing the game
-			playerHealth = player.healthCheck(currPace, badWater, littleWater, roughTrail);
 			men.dayPrompt();
 			dayChoice = men.dayChoice();
+
+			// FOR DEBUG
 			
 			// Allows player to choose what to do each day
 			switch(dayChoice) {
@@ -223,6 +279,7 @@ public class App {
 		}
 		// Chooses text display based upon game outcome 
 		if(playerDeath){men.gameDeath();}
+		else if(tragedy){men.tragicEnd();}
 		else {men.gameEnd();}
 		
 	} // End of main method

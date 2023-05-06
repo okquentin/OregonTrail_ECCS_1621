@@ -1,17 +1,24 @@
+import java.util.Random;
 /**
  * @author Anthony
  * Player is used to create and manage the human characters that the user is responsible for.
+ * 
+ * [Character Index]
+ * 0: Hattie
+ * 1: Father
+ * 2: Erin
+ * 3: Bridget
+ * 4: Jesse
+ * 5: Scott
+ * 6: Sarah
  */
-import java.util.Random;
+
 public class Character {
     String name;
     boolean isDead;
     boolean diseaseStatus;
     boolean injuryStatus;
-    int score;
-    char type;
-    double health = 0;
-    int daysWithoutRest;
+    int health;
     int hunger;
     int rationSize;
     int clothingQual;
@@ -24,17 +31,14 @@ public class Character {
     int hungerFactor = 2;
     int injuryFactor = 1;
     double hungerHealthFactor = 0.5;
-    double healFactor = 0.9;
    
     public Character(){
         isDead = false;
         diseaseStatus = false;
         injuryStatus = false;
+        health = 0;
     }
-   
-    // health code
-   
-    //this line should run once per day, regardless of ailments
+      
     /**
      * Used to add to the health variable when a player is diseased. This initially adds 20 to the variable.
      * Resets diseasedDays, which is used in other methods
@@ -55,6 +59,33 @@ public class Character {
             return 3;
         }
         return  0;
+    }
+
+    public String setName(int index){
+        switch(index){
+            case 0:
+                name = "Hattie";
+                break;
+            case 1:
+                name = "Father";
+                break;
+            case 2:
+                name = "Erin";
+                break;
+            case 3:
+                name = "Bridget";
+                break;
+            case 4:
+                name = "Jesse";
+                break;
+            case 5:
+                name = "Scott";
+                break;
+            case 6:
+                name = "Sarah";
+                break;
+        }
+        return name;
     }
 
     public void disease() {
@@ -89,20 +120,7 @@ public class Character {
      * @param roughTrail Boolean that is used in a very similar way to the other booleans
      * @return Returns health of the player object
      */
-    public double healthCheck(int pace, boolean badWater, boolean littleWater, boolean roughTrail) {
-        if(diseasedDays < 11) {
-            health += 1;
-            diseasedDays++;
-        }
-        if(injuredDays < 31) {
-            health += injuryFactor;
-            injuredDays++;
-        }
-       
-        //these are all special circumstances, should also only run once a day
-        if (health > 140) {
-            isDead = true;
-        }
+    public int healthCheck(int pace, boolean badWater, boolean littleWater, boolean roughTrail) {
        
         health = health - injuryFactor;
         //Controls for random world events
@@ -115,13 +133,18 @@ public class Character {
         if(roughTrail == true) {
             health += 10;
         }
+
+        //these are all special circumstances, should also only run once a day
+        if (health > 140) {
+            isDead = true;
+        }
    
     //Happen regardless of ailments
-    health += rationSize;
-    health = health * healFactor;
+    health -= rationSize;
     health += (pace * 2);
-   
-   
+
+    if(health < 0){health = 0;}
+
     return health;
     }
 }
