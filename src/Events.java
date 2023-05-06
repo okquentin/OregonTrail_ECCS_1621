@@ -53,7 +53,7 @@ public class Events {
 	* Method to initiate the wagon part loss/destruction
 	* @return whichPart
 	*/
-	public int partLoss() {
+	public int partBroke() {
 
 		int partLoss = rand.nextInt(100);
 		int whichPart = rand.nextInt(3);
@@ -74,13 +74,14 @@ public class Events {
 
 	/**
 	* A robber steals an item from you.
+	* No way to check if you have that item. 
 	* @return whichItem
 	*/
 	public int robber() {
 
 		int partLoss = rand.nextInt(200);
-		int whichItem = rand.nextInt(3);
 		if(partLoss == 1){
+			int whichItem = rand.nextInt(5);
 			switch(whichItem) {
 				case 1: // Oxen
 				return(1);

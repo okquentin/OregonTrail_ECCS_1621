@@ -2,6 +2,8 @@ import java.io.FileNotFoundException;
 import java.io.File;
 import java.util.Random;
 
+import javax.lang.model.util.ElementScanner14;
+
 /**
  * Class: App.java
  * 
@@ -177,12 +179,31 @@ public class App {
 				men.cookPrompt(numHunted);
 				men.helpPrompt();
 				boolean choice2 = men.helpChoice();
-				events.cookingMinigame(numHunted, cookMod, choice2);
+				int foodGained = events.cookingMinigame(numHunted, cookMod, choice2);
+				wagon.food += foodGained;
+			}
+
+			if(events.wrongTrail()){
+				men.wrongTrailDisplay();
+				// minus 30  miles
+			}
+
+			int robbed = events.robber();
+			if(robbed != 0){
+				men.robberDisplay(robbed);
+				wagon.inventorySubtractor(robbed, 1);
+			}
+
+			int partBroke = events.partBroke();
+			if(partBroke != 0) {
+				men.partBrokeDisplay(partBroke);
+				if(wagon.getAmountOfItem(partBroke) == 0){men.stuckPace();}
+				else {System.out.println("Your father was able to fix it and move on.");}
 			}
 
 			// Checks for events to occur
 			oxenDeath = events.oxenDeath(currPace, currDistance);
-			partLoss = events.partLoss();
+			partLoss = events.partBroke();
 			wrongTrail = events.wrongTrail();
 			noParts = wagon.inventorySubtractor(partLoss, 1);
 			badWater = events.badWater();
@@ -254,28 +275,31 @@ public class App {
 			// FOR DEBUG
 			
 			// Allows player to choose what to do each day
-			switch(dayChoice) {
-				case 1:
-					men.displayInventory(wagon.getInventory());
-					break;
-				case 2:
-					men.pacePrompt();
-					currPace = men.paceChoice();
-					if(wagonStuck){
-						men.stuckPace();
+			while(dayChoice != 4){
+				dayChoice = men.dayChoice();
+				switch(dayChoice) {
+					case 1:
+						men.displayInventory(wagon.getInventory());
 						break;
-					}
-					tm.setPace(currPace);
-					break;
-				case 3:
-					men.rationPrompt();
-					currRation = men.rationChoice();
-					tm.setRation(currRation);
-					break;	
-				case 4:
-					tm.newDay();
-					break;	
-			}
+					case 2:
+						men.pacePrompt();
+						currPace = men.paceChoice();
+						if(wagonStuck){
+							men.stuckPace();
+							break;
+						}
+						tm.setPace(currPace);
+						break;
+					case 3:
+						men.rationPrompt();
+						currRation = men.rationChoice();
+						tm.setRation(currRation);
+						break;	
+					case 4:
+						tm.newDay();
+						break;	
+				}
+			}	
 		}
 		// Chooses text display based upon game outcome 
 		if(playerDeath){men.gameDeath();}
