@@ -39,6 +39,9 @@ public class App {
 		int numOx = 1;
 		Oxen[] myOx = new Oxen[numOx];
 		double[] oxHealth = new double[numOx];
+		for(int i = 0; i < numOx; i++){
+			oxHealth[i] = 0;
+		}
 		boolean[] oxDeath = new boolean[numOx];
 
 		// To end the game play loop
@@ -70,12 +73,15 @@ public class App {
 			riverDepth = tm.getDepth();
 			riverLength = tm.getLength();
 			currRation = tm.getRation();
+			artIndex = currTerrain +2;
 
 			// Determining when landmarks are reached
 			currTown = tm.getTown();
 			currWeather = tm.getWeather();
 			currRiver = tm.getRiver();
 	
+			try {art.printArt(artIndex);} 
+			catch (FileNotFoundException e) {e.printStackTrace();}
 			men.displayDay(currDay, currPace, currTerrain, currDistance, currRation, currWeather);
 
 			// River cross check

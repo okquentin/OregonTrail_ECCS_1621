@@ -79,7 +79,6 @@ public class Map {
 	    public void travel(){
 	        switch(pace){
 	            case 0:
-	            	
 					break;
 	            case 1:
 	                distanceTraveled += 8;
