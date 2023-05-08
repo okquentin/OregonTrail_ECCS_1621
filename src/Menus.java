@@ -192,7 +192,7 @@ public class Menus {
 		System.out.println("");
 		System.out.print("[0] Bare Bones // ");
 		System.out.print("[1] Meager // ");
-		System.out.print("[2] Filling // ");
+		System.out.print("[2] Filling");
 		System.out.println("");
 	}
 	
@@ -292,20 +292,20 @@ public class Menus {
 	}
 
 	public void cookPrompt(int foodHunted){
-		System.out.println("");
 		System.out.println("Your father comes back from hunting with " + foodHunted + " lbs of food.");
+		System.out.println("");
 		System.out.println("You decide to cook and preserve the food.");
 
 	}
 
 	public void helpPrompt(){
 		System.out.println("");
-		System.out.println("Would you like to send a sibling to help? (1/2): ");	
+		System.out.println("[1] Send sibling to help // [2] Don't send sibling ");
+		System.out.print("What would you like to do? ");
 	}
 
 	public boolean helpChoice(){
 		boolean choice = false;
-		System.out.println("");
 		boolean choose = true;
 		while(choose){
 			int temp = sc.nextInt();
@@ -509,11 +509,18 @@ public class Menus {
 		return choice;
 	}
 
-	public void stuckPace() {
+	public void stuckPrompt() {
+		System.out.println("");
+		System.out.println("Your ox are dead and/or your wagon is broken!");
+		System.out.println("You're stuck... hopefully someone will come along.");
+	}
 
-		System.out.println("Your wagon is broken! You're stuck.");
-		System.out.println("You have to wait for someone to come along.");
-		
+	public void stuckPace(){
+		System.out.println("");
+		System.out.println("Your stuck!");
+		System.out.println("You cannot change your pace.");
+		System.out.print("Type any key to continue: ");
+		sc.next();
 	}
 
 	public void wrongTrailDisplay() {

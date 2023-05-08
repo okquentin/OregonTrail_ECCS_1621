@@ -7,7 +7,7 @@
 
 public class Oxen {
 	boolean isDead;
-	double health = 0;
+	int health = 0;
 	int daysTraveled;
 	int pace;
 	int daysWithoutRest;
@@ -18,10 +18,14 @@ public class Oxen {
 	// buffs and debuffs (future use)
 	int hungerFactor = 2;
 	int injuryFactor = 0;
-	double hungerHealthFactor = 0.5;
-	double healFactor = 0.9;
 
-	public double healthCheck(){
+   
+    public Oxen(){
+        isDead = false;
+        health = 0;
+    }
+
+	public int healthCheck(){
 		if(diseasedDays < 11) {
             health += 1;
             diseasedDays++;
@@ -36,7 +40,6 @@ public class Oxen {
             isDead = true;
         }
 
-		health = health * healFactor;
 		health += (pace * 2);
 		
 		return health;

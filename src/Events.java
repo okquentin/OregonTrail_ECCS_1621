@@ -145,6 +145,7 @@ public class Events {
 		}
 
 		int foodGained = 0;
+		System.out.println("");
 		System.out.println("You roll a " + cookRoll);
 		System.out.println("Plus " + "cookXP: " + cookMod);
 		System.out.println("Plus" + " childMod: " + helpMod);
