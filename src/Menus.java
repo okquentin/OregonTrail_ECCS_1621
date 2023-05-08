@@ -93,6 +93,66 @@ public class Menus {
 		System.out.println("The weather is " + weather);
 	}
 	
+
+	public void familyStatus(Character[] player, int playerHealth[], int numPlayer){
+		String[] name = new String[numPlayer];
+
+		for(int i = 0; i < numPlayer; i++){
+			name[i] = player[i].name;
+		}
+
+		System.out.println("---------------------");
+		System.out.println("[You]");
+		System.out.println("Health: " + playerHealth[0]);
+
+		System.out.print("Status: ");
+		if(player[0].diseaseStatus){System.out.print("ill");}
+		else if(player[0].injuryStatus){
+			if(player[0].diseaseStatus){System.out.print(" and ");}
+			System.out.print("injured");
+		}
+		else{System.out.print("Healthy");}
+
+		System.out.println("");
+
+		for(int i = 1; i < numPlayer-1; i++){
+			System.out.println("");
+
+			System.out.println("[" + name[i] + "]");
+
+			System.out.println("Health: " + playerHealth[i]);
+			System.out.print("Status: ");
+
+			if(player[i].diseaseStatus){System.out.print("ill");}
+			else if(player[i].injuryStatus){
+				if(player[i].diseaseStatus){System.out.print(" and ");}
+				System.out.print("injured");
+			}
+			else if(player[i].isDead){
+				System.out.print("deceased...");
+			}
+			else{System.out.print("Healthy");}
+
+			System.out.println("");
+		}
+		System.out.println("");
+		System.out.println("[" + player[numPlayer-1].name + "]");
+		System.out.println("Health: " + playerHealth[0]);
+
+		System.out.print("Status: ");
+		if(player[numPlayer-1].diseaseStatus){System.out.print("ill");}
+		else if(player[numPlayer-1].injuryStatus){
+			if(player[numPlayer-1].diseaseStatus){System.out.print(" and ");}
+			System.out.print("injured");
+		}
+		else{System.out.print("Healthy");}
+
+		System.out.println("");
+		System.out.println("---------------------");
+		System.out.print("Type any key to quit: ");
+
+		sc.next();
+	}
     /**
      * Prompts the player to make daily choices
     */
@@ -151,12 +211,12 @@ public class Menus {
 		System.out.println("River length: " + riverLength);
 		
 		System.out.println("");
-		System.out.println("What would you like to do?");
-		System.out.println("");
 		
-		System.out.println("[1] Attempt to ford river");
-		System.out.println("[2] Caulk wagon and float across");
-		System.out.println("[3] Travel around the river");
+		System.out.print("[1] Attempt to ford river // ");
+		System.out.print("[2] Caulk wagon and float across // ");
+		System.out.print("[3] Travel around the river");
+
+		System.out.println("What would you like to do? ");
 	}
 	
     /**
@@ -170,12 +230,13 @@ public class Menus {
 		System.out.println("Welcome to " + Town + "!");
 		System.out.println("----------------------------");
 		
-		System.out.println("What would you like to do?");
-		System.out.println("");
-		
-		System.out.println("[1] Rest");
-		System.out.println("[2] Leave Town");
+		System.out.print("[1] Rest // ");
+		System.out.print("[2] Leave Town // ");
 		System.out.println("[3] Visit local shop");
+
+		System.out.println("");
+
+		System.out.print("What would you like to do? ");
 	}
 	
     /**
@@ -194,7 +255,8 @@ public class Menus {
 		
 		System.out.println(storeInventory);
 		System.out.println("");
-		System.out.println("[8] Quit Shop");
+		System.out.println("[8] View Inventory");
+		System.out.println("[9] Quit Shop");
 		
 	}
 	
@@ -265,8 +327,10 @@ public class Menus {
     /**
      * Allows the player to view their inventory
      * @param inventory
+	 * @return quitInventory
     */
-	public void displayInventory(String inventory) {
+	public boolean displayInventory(String inventory) {
+		boolean quitInventory = false;
 		System.out.println("");
 		System.out.println("Current Inventory");
 		System.out.println("----------------------------");
@@ -274,6 +338,13 @@ public class Menus {
 		System.out.println(inventory);
 		System.out.println("");
 		System.out.println("----------------------------");
+		System.out.println("");
+		System.out.print("Type any key to quit: ");
+
+		String quitChoice = sc.next();
+		quitInventory = true;
+
+		return quitInventory;
 	}
 	
     /**
@@ -298,8 +369,6 @@ public class Menus {
 			case 5:
 			break;
 			case 6:
-			break;
-			case 7:
 			break;
 		}
 	}
@@ -343,8 +412,10 @@ public class Menus {
 	public int dayChoice() {
 		System.out.println("");
 		System.out.print("What is your choice? ");
-		 int choice = sc.nextInt();
-		 while(choice > 4 || choice < 1) {
+		
+		int choice = sc.nextInt();
+
+		 while(choice > 5 || choice < 1) {
 			System.out.println("Invalid input.");
 			System.out.println("");
 			choice = sc.nextInt();
@@ -420,7 +491,7 @@ public class Menus {
 		int choice = sc.nextInt();
 		
 
-		while(choice > 8 || choice < 1) {
+		while(choice > 9 || choice < 1) {
 			System.out.println("Invalid input.");
 			System.out.println("");
 			choice = sc.nextInt();
@@ -445,19 +516,9 @@ public class Menus {
 		
 	}
 
-    /**
-     * Allows the player to choose to exit inventory prompt
-     * @return exit
-    */
-	public boolean inventoryExit() {
-		boolean exit = false;
-		if(sc.nextInt() == 1){exit = true;}
-		else{}
-		return exit;
-	}
-
 	public void wrongTrailDisplay() {
 
+		System.out.println("");
 		System.out.println("You went down the wrong trail!");
 		System.out.println("You backtracked 30 miles.");
 

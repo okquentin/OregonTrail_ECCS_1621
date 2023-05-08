@@ -6,7 +6,7 @@ import javax.lang.model.util.ElementScanner14;
 /**
  * Class: App.java
  * 
- * Allows the Time, Menus, storeClass, Player, randomEvents, and Oxen classes to interact
+ * Allows the Time, Menus, wagonClass, Character, Events, Ascii, and Oxen classes to interact
  * 
  * @author Quentin Osterhage
  * @version MVP
@@ -126,19 +126,21 @@ public class App {
 				// Shop visit check
 				while(visitShop == true) {	
 					int shopChoice, amountChoice;
-					
-					men.displayInventory(wagon.getInventory()); // Displaying inventory before shopping
+					boolean quitInventory = false;
+				
 					
 					// Prompting the player for purchasing items
 					storeInventory = wagon.getStoreInventory(fortsPassed);
 					men.shopPrompt(storeInventory);
 					shopChoice = men.shopChoice();
-					visitShop = tm.townVisit(shopChoice);
 							
-					if(visitShop == false) {System.out.println(""); break;} // Leaves the store
+					if(shopChoice == 8){quitInventory = men.displayInventory(wagon.getInventory());} // Displaying Inventory
+					if(quitInventory == true){continue;}
+
+					if(shopChoice == 9) {System.out.println(""); break;} // Leaves the store
 					
 					// Prompting the player for choosing quantity of purchase
-					men.amountPrompt();
+					if(shopChoice !=8){men.amountPrompt();}
 					amountChoice = men.amountChoice();
 					wagon.moneySpentPerItem(shopChoice, amountChoice, fortsPassed);
 					wagon.addItemsToWagon(shopChoice, amountChoice);
@@ -244,7 +246,6 @@ public class App {
 			// Health Checks for all Characters
 			for(int i = 0; i < numPlayer; i++){
 				playerHealth[i] = player[i].healthCheck(currPace, badWater, littleWater, roughTrail, currRation);
-				System.out.println(playerHealth[i]);
 			}
 
 			// Check for player deaths
@@ -267,32 +268,36 @@ public class App {
 			dayChoice = men.dayChoice();
 			
 			// Allows player to choose what to do each day
-				switch(dayChoice) {
-					case 1:
-						men.displayInventory(wagon.getInventory());
-						break;
-					case 2:
-						men.pacePrompt();
-						currPace = men.paceChoice();
-						if(wagonStuck){
-							men.stuckPace();
-							break;
-						}
-						tm.setPace(currPace);
-						break;
-					case 3:
-						men.rationPrompt();
-						currRation = men.rationChoice();
-						wagon.setRation(currRation);
-						break;	
-					case 4:
-						tm.newDay();
-						break;	
-				}
-				if(dayChoice != 4) {
-					men.dayPrompt();
-					dayChoice = men.dayChoice();
-				}
+			boolean quitInventory;
+			switch(dayChoice) {
+				case 1:
+					quitInventory = men.displayInventory(wagon.getInventory());
+					continue;
+				case 2:
+					men.pacePrompt();
+					currPace = men.paceChoice();
+					if(wagonStuck){
+						men.stuckPace();
+						continue;
+					}
+					tm.setPace(currPace);
+					continue;
+				case 3:
+					men.rationPrompt();
+					currRation = men.rationChoice();
+					wagon.setRation(currRation);
+					continue;	
+				case 4:
+					tm.newDay();
+					break;
+				case 5: 
+					men.familyStatus(player, playerHealth, numPlayer);
+					continue;
+			}
+			if(dayChoice != 4) {
+				men.dayPrompt();
+				dayChoice = men.dayChoice();
+			}
 		}
 		// Chooses text display based upon game outcome 
 		if(playerDeath){men.gameDeath();}

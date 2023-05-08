@@ -15,7 +15,6 @@
 	 public int food = 100;
 	 int ration; // 0 = Bare Bones, 1 = Meager, 2 = Filling
 	 public double money = 865;
-	 
 	 /**
 	  * Adds items to the array that is the wagon's inventory.
 	  * @param itemGained
@@ -64,9 +63,9 @@
 		
 		double priceModifier = 1 + fortsPassed * .25;
 		
-		String storeInventory = "[1] Oxen 		  "+Double.toString(40*priceModifier)+"\n"+
-								"[2] Food 		  "+Double.toString(.2*priceModifier)+"\n"+
-								"[3] Clothing 	  "+Double.toString(10*priceModifier)+"\n"+
+		String storeInventory = "[1] Oxen         "+Double.toString(40*priceModifier)+"\n"+
+								"[2] Food         "+Double.toString(.2*priceModifier)+"\n"+
+								"[3] Clothing 	 "+Double.toString(10*priceModifier)+"\n"+
 								"[4] Ammunition   "+Double.toString( 2*priceModifier)+"\n"+
 								"[5] Wagon Wheel  "+Double.toString(10*priceModifier)+"\n"+
 								"[6] Wagon Axle   "+Double.toString(10*priceModifier)+"\n"+
