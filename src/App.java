@@ -6,7 +6,7 @@ import javax.lang.model.util.ElementScanner14;
 /**
  * Class: App.java
  * 
- * Allows the Time, Menus, storeClass, Player, randomEvents, and Oxen classes to interact
+ * Allows the Time, Menus, wagonClass, Character, Events, Ascii, and Oxen classes to interact
  * 
  * @author Quentin Osterhage
  * @version MVP
@@ -26,26 +26,17 @@ public class App {
 		// Character Instantiations (See index at Character.java)
 		int numPlayer = 7;
 		Character[] player = new Character[numPlayer];
+
 		for(int i = 0; i < numPlayer; i++){
 			player[i] = new Character();
 			player[i].setName(i);
 		}
 		
-
 		int[] playerHealth = new int[numPlayer];
 		for(int i = 0; i < numPlayer; i++){
 			playerHealth[i] = 0;
 		}
 		boolean[] death = new boolean[numPlayer];
-
-
-		int numOx = 1;
-		Oxen[] myOx = new Oxen[numOx];
-		double[] oxHealth = new double[numOx];
-		for(int i = 0; i < numOx; i++){
-			oxHealth[i] = 0;
-		}
-		boolean[] oxDeath = new boolean[numOx];
 
 		// To end the game play loop
 		boolean gameEnd = false;
@@ -54,18 +45,22 @@ public class App {
 
 		// Parameters to pass into methods
 		int currDay, currPace, currDistance, dayChoice, currTerrain, riverDepth, riverLength, fortsPassed, currRation, artIndex, food, daysHungry = 0;
+		int ox = 1;
 		String currWeather, currRiver, currTown, storeInventory;
 
-		// Skill Factor
+		// Cooking XP Factor
 		int cookMod = 0;
+
+		// Adding 2 oxen to inventory before game
+		wagon.inventoryAdder(ox, 2);
 
 		// Beginning of Game
 		try {art.printArt(0);} 
 		catch (FileNotFoundException e) {e.printStackTrace();}
-		
 		tm.newDay();
 		
 		while(gameEnd == false) {
+
 			
 			// Updating parameters each day
 			currDay = tm.getDay();
@@ -126,31 +121,25 @@ public class App {
 				// Shop visit check
 				while(visitShop == true) {	
 					int shopChoice, amountChoice;
-					
-					men.displayInventory(wagon.getInventory()); // Displaying inventory before shopping
+					boolean quitInventory = false;
+				
 					
 					// Prompting the player for purchasing items
 					storeInventory = wagon.getStoreInventory(fortsPassed);
 					men.shopPrompt(storeInventory);
 					shopChoice = men.shopChoice();
-					visitShop = tm.townVisit(shopChoice);
 							
-					if(visitShop == false) {System.out.println(""); break;} // Leaves the store
+					if(shopChoice == 8){quitInventory = men.displayInventory(wagon.getInventory());} // Displaying Inventory
+					if(quitInventory == true){continue;}
+
+					if(shopChoice == 9) {System.out.println(""); break;} // Leaves the store
 					
 					// Prompting the player for choosing quantity of purchase
-					men.amountPrompt();
+					if(shopChoice !=8){men.amountPrompt();}
 					amountChoice = men.amountChoice();
 					wagon.moneySpentPerItem(shopChoice, amountChoice, fortsPassed);
 					wagon.addItemsToWagon(shopChoice, amountChoice);
-					
-					// Instantiating new Ox objects when buying them
-					numOx += wagon.getAmountOfItem(1); // See storeClass.getInventory for item index # 
-					if(numOx > 0) {
-						for(int i = 0; i < (wagon.getAmountOfItem(1)); i++){myOx[i] = new Oxen();}
-					}
-
 				} // End of shop visit
-				
 				if(townChoice ==2) {}
 				else {continue;}
 			} // End of town visit
@@ -159,7 +148,7 @@ public class App {
 			if(gameEnd == true){break;}
 			
 			// Hunting/Cooking Event every week
-			else if(wagon.food < 30){
+			else if(wagon.food < 30 && !player[1].isDead){
 				men.huntPrompt();
 				men.helpPrompt();
 				boolean choice = men.helpChoice();
@@ -167,7 +156,9 @@ public class App {
 					boolean hunt = false;
 					int temp = 0;
 					while(!hunt){
-						temp = rand.nextInt(4)+2;
+						temp = rand.nextInt(3)+2;
+						System.out.println("");
+						System.out.print("You send your sibling, " + player[temp].name + ", to help your father hunt.");
 						if(!player[temp].isDead){hunt = true;}
 					}
 					int harm = player[temp].childHarm();
@@ -180,7 +171,17 @@ public class App {
 				men.cookPrompt(numHunted);
 				men.helpPrompt();
 				boolean choice2 = men.helpChoice();
+				if(choice2){
+					boolean hunt = false;
+					int temp = 0;
+					while(!hunt){
+						temp = rand.nextInt(3)+2;
+						System.out.println("You sent your sibling, " + player[temp].name + " to help cook.");
+						if(!player[temp].isDead){hunt = true;}
+					}
+				}
 				int foodGained = events.cookingMinigame(numHunted, cookMod, choice2);
+				cookMod++;
 				wagon.food += foodGained;
 			}
 
@@ -199,7 +200,7 @@ public class App {
 				men.partBrokeDisplay(partBroke);
 
 				if(wagon.getAmountOfItem(partBroke) == 0){
-					men.stuckPace();
+					men.stuckPrompt();
 					tm.setPace(0);
 					wagonStuck = true;
 				}
@@ -225,10 +226,10 @@ public class App {
 
 
 			// Oxen death Mechanic
-			if(oxenDeath == true) {
-				for(int i = 0; i < numOx; i++){myOx[i] = null;}
-			}
+			if(oxenDeath) {
+				wagon.inventorySubtractor(ox, 1);
 
+			}
 			
 			// Food Consumption
 			wagon.eat(currRation, numPlayer);
@@ -240,11 +241,16 @@ public class App {
 				playerDeath = true;
 				gameEnd = true;
 			}
+
+			// Check for Death of all Ox
+			if(wagon.getAmountOfItem(ox) == 0){
+				wagonStuck = true;
+				men.stuckPrompt();
+			}
 			
 			// Health Checks for all Characters
 			for(int i = 0; i < numPlayer; i++){
 				playerHealth[i] = player[i].healthCheck(currPace, badWater, littleWater, roughTrail, currRation);
-				System.out.println(playerHealth[i]);
 			}
 
 			// Check for player deaths
@@ -267,32 +273,36 @@ public class App {
 			dayChoice = men.dayChoice();
 			
 			// Allows player to choose what to do each day
-				switch(dayChoice) {
-					case 1:
-						men.displayInventory(wagon.getInventory());
-						break;
-					case 2:
-						men.pacePrompt();
-						currPace = men.paceChoice();
-						if(wagonStuck){
-							men.stuckPace();
-							break;
-						}
-						tm.setPace(currPace);
-						break;
-					case 3:
-						men.rationPrompt();
-						currRation = men.rationChoice();
-						wagon.setRation(currRation);
-						break;	
-					case 4:
-						tm.newDay();
-						break;	
-				}
-				if(dayChoice != 4) {
-					men.dayPrompt();
-					dayChoice = men.dayChoice();
-				}
+			boolean quitInventory;
+			switch(dayChoice) {
+				case 1:
+					quitInventory = men.displayInventory(wagon.getInventory());
+					continue;
+				case 2:
+					men.pacePrompt();
+					currPace = men.paceChoice();
+					if(wagonStuck){
+						men.stuckPace();
+						continue;
+					}
+					tm.setPace(currPace);
+					continue;
+				case 3:
+					men.rationPrompt();
+					currRation = men.rationChoice();
+					wagon.setRation(currRation);
+					continue;	
+				case 4:
+					tm.newDay();
+					break;
+				case 5: 
+					men.familyStatus(player, playerHealth, numPlayer);
+					continue;
+			}
+			if(dayChoice != 4) {
+				men.dayPrompt();
+				dayChoice = men.dayChoice();
+			}
 		}
 		// Chooses text display based upon game outcome 
 		if(playerDeath){men.gameDeath();}

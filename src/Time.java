@@ -116,13 +116,10 @@ public class Time {
     		case 2: 
     			map.pace = 1;
     			map.exitTown = true;
+                map.travel();
     			break;
     		case 3:
     			visitShop = true;
-    			break;
-    		// Choice for leaving the store
-    		case 8:
-    			visitShop = false;
     			break;
     	}
     	return visitShop;
