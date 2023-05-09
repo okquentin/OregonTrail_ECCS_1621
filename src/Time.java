@@ -34,11 +34,11 @@ public class Time {
      * Runs each time the day is advanced:  
      * increments day, generates weather, and travels the player along the map
     */
-    public void newDay(){
+    public void newDay(int oldWeather){
     	int terrain = map.terrain;
         day++;
-        wth.changeWeather(terrain);
-        wth.weatherGen();
+        wth.changeWeather(terrain, oldWeather);
+        wth.weatherGen(oldWeather);
         if(day > 1) {map.travel();}
     }
     
@@ -215,6 +215,7 @@ public class Time {
     */
     public int getFortsPassed() {return map.fortsPassed;}
     
+    public int getWeatherState(){return wth.weatherState;}
     
     /**
      * Getter for weatherState String 
@@ -239,5 +240,10 @@ public class Time {
      * @return map.exitTown
     */
     public boolean getExitTown() {return map.exitTown;}
-}
+
+
+    public boolean weatherChange(){return wth.weatherChange;}
     
+}
+
+

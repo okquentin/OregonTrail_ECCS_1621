@@ -214,9 +214,9 @@ public class Menus {
 		
 		System.out.print("[1] Attempt to ford river // ");
 		System.out.print("[2] Caulk wagon and float across // ");
-		System.out.print("[3] Travel around the river");
+		System.out.println("[3] Travel around the river");
 
-		System.out.println("What would you like to do? ");
+		System.out.print("What would you like to do? ");
 	}
 	
     /**
@@ -319,7 +319,7 @@ public class Menus {
 				choose = false;
 				continue;
 			}
-			System.out.println("Please enter a valid integer (1/2): ");
+			System.out.print("Please enter a valid integer (1/2): ");
 		}
 		return choice;
 	}
@@ -359,17 +359,23 @@ public class Menus {
 	public void characterDeath(int index){
 		switch(index){
 			case 1:
-			break;
+				System.out.println("Your dad died.");
+				break;
 			case 2:
-			break;
+				System.out.println("Young Erin Campbell has unfortunately been taken from the mortal realm, and as she is brought toward the Lord, the hearts of you and your family are filled with a neverending sorrow. Her spirit shall look upon the journey with the hope that her brothers and sisters can experience a better life. ");
+				break;
 			case 3:
-			break;
+				System.out.println("The hearts of the family fill with sorrow as Miss. Bridget Campbell passed away. As her angelic soul drifts into Heaven, the family’s hearts are filled with a sorrow that shall never be filled.");
+				break;
 			case 4:
-			break;
+				System.out.println("Young Jesse Campbell, at the tender age of 13, has been summoned by the Grim Reaper to the Great Beyond. You and your family are locked in prayer, seeking salvation for Jesse’s beautiful soul. May he rest in peace. ");
+				break;
 			case 5:
-			break;
+				System.out.println("Scott Campbell, a young lad of but twelve years of age, has been called home toward the Lord. As you and your family’s hearts swell with sorrow, Scott looks down upon you, making sure that your journey is completed safely");
+				break;
 			case 6:
-			break;
+				System.out.println("Miss Sarah Campbell, a lady of but 8 years of age, has departed this earthly plane to join the heavenly choir. You and your family’s hearts fill with grief, as the passing of her compassionate heart is mourned by all who know her.");
+				break;
 		}
 	}
 	
@@ -507,6 +513,12 @@ public class Menus {
 	public int amountChoice() {
 		int choice = sc.nextInt();
 		return choice;
+	}
+
+	public void oxDeath(){
+		System.out.println("");
+		System.out.println("One of your ox has died of exhaustion!");
+		System.out.println("Maybe consider slowing down...");
 	}
 
 	public void stuckPrompt() {
