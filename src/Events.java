@@ -25,17 +25,25 @@ public class Events {
 	* @param distanceTraveled Passed from Map, responsible for chance calculation
 	* @return boolean if an oxen is killed or not
 	*/
-	public boolean oxenDeath(int pace, int distanceTraveled){
-		int distTraveled = distanceTraveled;
-		int bound = 100;
-		bound -= distTraveled/50;
-		bound -= (pace - 2);
-		int deathChance = rand.nextInt(bound);
-		if(deathChance == 2){
-		return true;
-	}
-	else{return false;}
-	}
+	// public boolean oxenDeath(int pace){
+	// 	int chance = 0;
+	// 	switch(pace){
+	// 		case 0:
+	// 			chance = 0;
+	// 			break;
+	// 		case 1:
+	// 			chance = rand.nextInt(11);
+	// 			break;
+	// 		case 2:
+	// 			chance = rand.nextInt(20);
+	// 			break;
+	// 		case 3:
+	// 			chance = rand.nextInt(30);
+	// 			break;
+	// 	}
+	// 	if(chance != 0 && chance % 10 == 0){return true;}
+	// 	else{return false;}
+	// }
 
 	public boolean badWater(){
 		return false;

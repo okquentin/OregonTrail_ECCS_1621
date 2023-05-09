@@ -6,7 +6,7 @@ import javax.lang.model.util.ElementScanner14;
 /**
  * Class: App.java
  * 
- * Allows the Time, Menus, wagonClass, Character, Events, Ascii, and Oxen classes to interact
+ * Allows the Time, Menus, wagonClass, Character, Events, and Ascii classes to interact
  * 
  * @author Quentin Osterhage
  * @version MVP
@@ -44,7 +44,9 @@ public class App {
 		boolean tragedy = false;
 
 		// Parameters to pass into methods
-		int currDay, currPace, currDistance, dayChoice, currTerrain, riverDepth, riverLength, fortsPassed, currRation, artIndex, food, daysHungry = 0;
+		int currDay, currPace, currDistance, dayChoice, currTerrain, riverDepth, riverLength, fortsPassed, currRation, food, currWeatherState;
+		int artIndex = 0;
+		int daysHungry = 0;
 		int ox = 1;
 		String currWeather, currRiver, currTown, storeInventory;
 
@@ -52,33 +54,44 @@ public class App {
 		int cookMod = 0;
 
 		// Adding 2 oxen to inventory before game
-		wagon.inventoryAdder(ox, 2);
+		int startingOx = 2;
+		wagon.inventoryAdder(ox, startingOx);
 
 		// Beginning of Game
 		try {art.printArt(0);} 
 		catch (FileNotFoundException e) {e.printStackTrace();}
-		tm.newDay();
+		tm.newDay(0);
 		
 		while(gameEnd == false) {
 
-			
 			// Updating parameters each day
 			currDay = tm.getDay();
 			currPace = tm.getPace();
 			currDistance = tm.getDistance();
+			currWeather = tm.getWeather();
+			currWeatherState = tm.getWeatherState();
+			boolean weatherChange = tm.weatherChange();
 			currTerrain = tm.getTerrain();
 			riverDepth = tm.getDepth();
 			riverLength = tm.getLength();
 			currRation = wagon.getRation();
 			food = wagon.getFood();
 			if(food < 0){food = 0;}
-			artIndex = currTerrain +2;
 
 			// Determining when landmarks are reached
 			currTown = tm.getTown();
-			currWeather = tm.getWeather();
 			currRiver = tm.getRiver();
-	
+			
+			// Determining Ascii art based on Terrain and Weather
+			if(currTerrain !=3 && currTerrain !=2){
+				if(weatherChange){artIndex = Ascii.weatherToIndex(currWeather);}
+				else{artIndex = currTerrain+2;}
+			}
+			else{artIndex = currTerrain+2;}
+
+			if(artIndex == 0){artIndex = 2;}
+
+			// Printing Ascii art
 			try {art.printArt(artIndex);} 
 			catch (FileNotFoundException e) {e.printStackTrace();}
 			men.displayDay(currDay, currPace, currTerrain, currDistance, currRation, currWeather);
@@ -101,7 +114,7 @@ public class App {
 				boolean visitShop, exitTown;
 
 				currTown = tm.getTown();
-				if(currTown == "Willamette Valley") {gameEnd = true; break;}
+				if(currTown == "Ash Hollow") {gameEnd = true; break;}
 				fortsPassed = tm.getFortsPassed();
 				
 				men.townPrompt(currTown);
@@ -140,7 +153,7 @@ public class App {
 					wagon.moneySpentPerItem(shopChoice, amountChoice, fortsPassed);
 					wagon.addItemsToWagon(shopChoice, amountChoice);
 				} // End of shop visit
-				if(townChoice ==2) {}
+				if(townChoice == 2) {}
 				else {continue;}
 			} // End of town visit
 			
@@ -186,7 +199,7 @@ public class App {
 			}
 
 			// Checks for events to occur
-			boolean oxenDeath = events.oxenDeath(currPace, currDistance);
+			// boolean oxenDeath = events.oxenDeath(currPace);
 			int partBroke = events.partBroke();
 			int robbed = events.robber();
 			boolean wrongTrail = events.wrongTrail();
@@ -226,10 +239,10 @@ public class App {
 
 
 			// Oxen death Mechanic
-			if(oxenDeath) {
-				wagon.inventorySubtractor(ox, 1);
-
-			}
+			// if(oxenDeath){
+			// 	men.oxDeath();
+			// 	wagon.inventorySubtractor(ox, 1);
+			// }
 			
 			// Food Consumption
 			wagon.eat(currRation, numPlayer);
@@ -293,7 +306,7 @@ public class App {
 					wagon.setRation(currRation);
 					continue;	
 				case 4:
-					tm.newDay();
+					tm.newDay(currWeatherState);
 					break;
 				case 5: 
 					men.familyStatus(player, playerHealth, numPlayer);

@@ -39,7 +39,7 @@
 		 
 		 int test = 0;
 		 
-		 for(int i = 0; i <= amountLost; i++) {
+		 for(int i = 0; i < amountLost; i++) {
 			 for (int j = 0; j < inventory.size(); j++) {
 				 if(inventory.get(j) == itemLost) {
 					 inventory.remove(j);

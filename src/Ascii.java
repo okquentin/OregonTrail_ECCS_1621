@@ -13,6 +13,9 @@ import java.io.FileNotFoundException;
  * (3) file3: Arid Landscape
  * (4) file4: River Crossing
  * (5) file5: Town Visit
+ * (6) file6: Hot Weather
+ * (7) file7: Cold Weather
+ * (8) file8: Rainy Weather
  * 
  * [Implementation in App]
  * try {art.printArt(int artIndex);} 
@@ -37,6 +40,25 @@ import java.io.FileNotFoundException;
             while(scan.hasNextLine()){System.out.println(scan.nextLine());}
         }
 
+    }
+
+    public static int weatherToIndex(String weatherString){
+        int index = 0;
+        switch(weatherString) {
+            case "Mild":
+                index = 0;
+                break;
+            case "Hot": 
+                index = 6;
+                break;
+            case "Cold": 
+                index = 7;
+                break;
+            case "Rainy": 
+                index = 8;
+                break;
+        }
+        return index;
     }
  }
 
