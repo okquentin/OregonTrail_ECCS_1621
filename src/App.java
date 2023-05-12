@@ -114,7 +114,7 @@ public class App {
 				boolean visitShop, exitTown;
 
 				currTown = tm.getTown();
-				if(currTown == "Ash Hollow") {gameEnd = true; break;}
+				if(currTown == "Willamette Valley") {gameEnd = true; break;}
 				fortsPassed = tm.getFortsPassed();
 				
 				men.townPrompt(currTown);
