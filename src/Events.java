@@ -46,14 +46,23 @@ public class Events {
 	// }
 
 	public boolean badWater(){
+		int chance = rand.nextInt(100);
+		if(chance<5)
+			return true;
 		return false;
 	}
 
 	public boolean littleWater(){
+		int chance = rand.nextInt(100);
+		if(chance<5)
+			return true;
 		return false;
 	}
 
 	public boolean roughTrail(){
+		int chance = rand.nextInt(100);
+		if(chance<5)
+			return true;
 		return false;
 	}
 
@@ -187,29 +196,28 @@ public class Events {
 
 	public void NPC() {
 
-		int whichOne = 0;
-		int temp = rand.nextInt(100)+1;
+		int temp = rand.nextInt(100);
 
-		if(temp >= 80){whichOne = rand.nextInt(3);}
+		if(temp < 10){
+			int whichOne = rand.nextInt(3);
 
-		switch (whichOne) {
-			case 0:
-			break;
+			switch (whichOne) {
 
-			case 1:
-			System.out.println("You pass another family on the trail.");
-			System.out.println("You eat together that night and share some tips and tricks.");
-			System.out.println("In the morning, you go your seperate ways.");
-			break;
+				case 0:
+				System.out.println("You pass another family on the trail.");
+				System.out.println("You eat together that night and share some tips and tricks.");
+				System.out.println("In the morning, you go your seperate ways.");
+				break;
 
-			case 2:
-			System.out.println("You hear the howl of wolves in the distance...");
-			break;
+				case 1:
+				System.out.println("You hear the howl of wolves in the distance...");
+				break;
 
-			case 3:
-			System.out.println("You pass a small grave site.");
-			System.out.println("You pay your respects and move on.");
-			break;
+				case 2:
+				System.out.println("You pass a small grave site.");
+				System.out.println("You pay your respects and move on.");
+				break;
+			}
 		}
 
 	}
