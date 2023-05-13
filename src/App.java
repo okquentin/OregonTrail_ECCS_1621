@@ -237,6 +237,9 @@ public class App {
 				wagon.inventorySubtractor(robbed, 1);
 			}
 
+			// Has a chance to cause a flavor event to happen
+			events.NPC();
+
 
 			// Oxen death Mechanic
 			// if(oxenDeath){
