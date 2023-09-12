@@ -1,1 +1,1 @@
-This repository contains the Oregon Trail program written as a group project for ECCS 1621.
+This repository was used to collaborate on a group project to design an Oregon Trail game in Java. We began working on the project using the Eclipse IDE, but switched to Visual Studio code midway through the project. Those files are contained within the folder OregonTrail_Eclipse.
