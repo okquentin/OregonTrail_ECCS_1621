@@ -1,3 +1,3 @@
-# OregonTrail_ECCS1721
+# OregonTrail_Eclipse
 
 Temporary Eclipse repository for text-based Oregon Trail "MVP"
