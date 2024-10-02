@@ -18,7 +18,6 @@ public class Map {
     	
 	 	public int pace; // 0=Resting 1=Steady 2=Strenuous 3=Grueling
 	    public int terrain; // 0=Plains 1=Arid 2=RiverCrossing, 3=Town
-		public int ration; // 0 = Bare Bones, 1 = Meager, 2 = Filling
 	    public int distanceTraveled;
 	    public int fortsPassed;
 	    public String currRiver;
@@ -34,15 +33,39 @@ public class Map {
 	    private boolean crossBlue;
 	    private boolean crossPlatte;
 	    private boolean crossPlatte2;
+		public boolean crossGreen;
+		public boolean crossSnake;
 	    private final int distBR = 130;
 	    private final int distPR = 250;
 	    private final int distPR2 = 430;
+		private final int distGreen = 950;
+		private final int distSnake = 1600;
+		public int distGR = 950;
 
 	    public int distKearny = 260;
 	    public boolean visitKearny;
-	    
-	    public int distAH = 480; // END OF MVP
+
+		public int distAH = 480;  // Ash Hollow
 	    public boolean visitAH;
+
+		public int distLaramie = 730;
+		public boolean visitLaramie;
+
+		public int distBridger = 1000;
+		public boolean visitBridger;
+
+		public int distHall = 1200;
+		public boolean visitHall;
+
+		public int distBoise = 1450;
+		public boolean visitBoise;
+
+		public int distWalaWala = 1700;
+		public boolean visitWalaWala;
+
+
+		public int distWV = 1000; // Willamette Valley (END OF GAME)
+		public boolean visitWV;
 
 	    /**
 	     * Constructor for Map class
@@ -51,14 +74,21 @@ public class Map {
 	    	distanceTraveled = 0; 
 	    	fortsPassed = 0;
 	    	pace = 1;
-			ration = 1;
 	    	terrain = 3;
 	    	currTown = "Independence, MO";
 			crossBlue = false;
 			crossPlatte = false;
 			crossPlatte2 = false;
+			crossGreen = false;
+			crossSnake = false;
 			visitKearny = false;
 			visitAH = false;
+			visitLaramie = false;
+			visitBridger = false;
+			visitHall = false;
+			visitBoise = false;
+			visitWalaWala = false;
+			visitWV = false;
 	    }
 	    
 	    /**
@@ -76,7 +106,6 @@ public class Map {
 	    public void travel(){
 	        switch(pace){
 	            case 0:
-	            	
 					break;
 	            case 1:
 	                distanceTraveled += 8;
@@ -88,19 +117,6 @@ public class Map {
 	                distanceTraveled += 20;
 	                break;
 	       }
-		   switch(ration){
-			case 0:
-				break;
-			case 1:
-				distanceTraveled += 8;
-				break;
-			case 2:
-				distanceTraveled += 14;
-				break;
-			case 3:
-				distanceTraveled += 20;
-				break;
-	   }
 	        
 	       if(exitTown = true) {
 	    	   terrain = 0;
@@ -113,14 +129,64 @@ public class Map {
 			   exitTown = false;
 			   fortsPassed++;
 		   }
+
+		   if(distanceTraveled >= distAH && visitAH == false) {
+			visitAH = true;
+			terrain = 3;
+			currTown = "Ash Hollow";
+			exitTown = false;
+			fortsPassed++;
+		}
 		        
-	       if(distanceTraveled >= distAH && visitAH == false) {
-	    	   visitAH = true;
+	       if(distanceTraveled >= distLaramie && visitLaramie == false) {
+	    	   visitLaramie = true;
 			   terrain = 3;
-			   currTown = "Ash Hollow";
+			   currTown = "Fort Laramie";
 			   exitTown = false;
 			   fortsPassed++;
 	       }
+
+		   if(distanceTraveled >= distBridger && visitBridger == false) {
+			visitBridger = true;
+			terrain = 3;
+			currTown = "Fort Bridger";
+			exitTown = false;
+			fortsPassed++;
+		}
+
+		if(distanceTraveled >= distHall && visitHall == false) {
+			visitHall = true;
+			terrain = 3;
+			currTown = "Fort Hall";
+			exitTown = false;
+			fortsPassed++;
+		}
+
+		if(distanceTraveled >= distBoise && visitBoise == false) {
+			visitBoise = true;
+			terrain = 3;
+			currTown = "Fort Boise";
+			exitTown = false;
+			fortsPassed++;
+		}
+
+
+		if(distanceTraveled >= distWalaWala && visitWalaWala == false) {
+			visitWalaWala = true;
+			terrain = 3;
+			currTown = "Fort Walla Walla";
+			exitTown = false;
+			fortsPassed++;
+		}
+
+
+		   if(distanceTraveled >= distWV && visitWV == false) {
+			visitWV = true;
+			terrain = 3;
+			currTown = "Willamette Valley";
+			exitTown = false;
+			fortsPassed++;
+		}
 	       
 	       if(distanceTraveled >= 380 && exitTown != false) {terrain = 1;} 
 	   
@@ -142,8 +208,17 @@ public class Map {
 	    	   currRiver = "Platte River";
 	    	   crossPlatte2 = true;
 	       }
+		   if(distanceTraveled >= distGreen && crossGreen == false) {
+			riverGen();
+			terrain = 2;
+			currRiver = "Green River";
+			crossPlatte2 = true;
+		}
+		if(distanceTraveled >= distSnake && crossSnake == false) {
+			riverGen();
+			terrain = 2;
+			currRiver = "Snake River";
+			crossPlatte2 = true;
+		}
 	    }
-	    
-	    
-
 }

@@ -15,9 +15,10 @@ public class Weather{
     Random rand = new Random();
     public int temperature;
     public boolean precipitation;
-    
-    private boolean newWeather;
-    private int weatherState;
+
+    public boolean newWeather;
+    public boolean weatherChange = false;
+    public int weatherState; // 0=mild, 1=hot, 2=cold, 3=rainy
     public String weatherString;
     
     
@@ -66,7 +67,7 @@ public class Weather{
      * Weather change chances depend upon terrain
      * @param terrain
     */
-    public void changeWeather(int terrain){
+    public void changeWeather(int terrain, int oldWeather){
         int newRand = rand.nextInt();
 
         if(newRand % 2 == 0) {newWeather = true;}
@@ -81,18 +82,21 @@ public class Weather{
 	            int rainRand = rand.nextInt(6);
 	            rainChance(rainRand);
             }
-            weatherGen();
+            weatherGen(oldWeather);
         }
     }
 
     /**
      * Sets weatherState based on temperature/precipitation
     */
-    public void weatherGen(){
+    public void weatherGen(int oldWeather){
         if(temperature < 80 && temperature > 40){weatherState = 0;}
         if(temperature > 80){weatherState = 1;}
         if(temperature < 40){weatherState = 2;}
         if(precipitation){weatherState = 3;}
+
+        if(oldWeather != weatherState){weatherChange = true;}
+        else{weatherChange = false;}
         setString();
     }
 

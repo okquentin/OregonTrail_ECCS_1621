@@ -31,17 +31,16 @@ public class Time {
     }
     
     /**
-     * Runs each time the day is advanced
-     * Increments day, generates weather, and travels the player along the map
+     * Runs each time the day is advanced:  
+     * increments day, generates weather, and travels the player along the map
     */
-    public void newDay(){
+    public void newDay(int oldWeather){
     	int terrain = map.terrain;
         day++;
-        wth.changeWeather(terrain);
-        wth.weatherGen();
+        wth.changeWeather(terrain, oldWeather);
+        wth.weatherGen(oldWeather);
         if(day > 1) {map.travel();}
     }
-    
     
     /**
      * Allows player to choose how to cross river (or travel around it)
@@ -55,18 +54,18 @@ public class Time {
 	    	case 1:
 	    		int temp = rand.nextInt(10)+1;
     			for(int i = 0; i < temp; i++) {
-	    			System.out.println("You are attemping to ford to the river...");
-	    				
-		    		if(map.riverDepth >= 10) {
-		        		int tempRand = rand.nextInt(100);
-		        		if(tempRand % 10 == 0){
-		        			map.drown = true;
-		        			crossed = false;
-		        			break;
-		        		}
-		        		else {crossed = true;}	
-		    		}
-		    		else {crossed = true;}
+	    			System.out.println("You are attemping to ford to the river... (Type Any Key to Continue)");
+                        sc.next();
+                        if(map.riverDepth >= 10) {
+                            int tempRand = rand.nextInt(100);
+                                if(tempRand <= 10){
+                                    map.drown = true;
+                                    crossed = false;
+                                    break;
+                                }
+                                else {crossed = true;}	
+                        }
+                        else{crossed = true;}
     			}
 		    	break;
 		    	
@@ -117,13 +116,10 @@ public class Time {
     		case 2: 
     			map.pace = 1;
     			map.exitTown = true;
+                map.travel();
     			break;
     		case 3:
     			visitShop = true;
-    			break;
-    		// Choice for leaving the store
-    		case 8:
-    			visitShop = false;
     			break;
     	}
     	return visitShop;
@@ -152,22 +148,7 @@ public class Time {
                 break;
         }
     }
-    public void setRation(String rationString){
-        switch(rationString){
-            case "Bare Bones": 
-                map.ration = 0;
-                break;
-            
-            case "Meager": 
-                map.ration = 1;
-                break;
-            
-            case "Filling":
-                map.ration = 2;
-                break;
-            
-        }
-    }
+
     
     /**
      * Setter for travel pace
@@ -175,13 +156,9 @@ public class Time {
     */
     public void setPace(int pace) {map.pace = pace;}
 
-    public void setRation(int ration) {map.ration = ration;}
+    public void subtractDistance(int distance){map.distanceTraveled -= distance;}
     
-    /**
-     * Getter for current day 
-     * @return day
-    */
-    public int getRation() {return map.ration;}
+
     /**
      * Getter for current ration 
      * @return day
@@ -238,6 +215,7 @@ public class Time {
     */
     public int getFortsPassed() {return map.fortsPassed;}
     
+    public int getWeatherState(){return wth.weatherState;}
     
     /**
      * Getter for weatherState String 
@@ -262,5 +240,10 @@ public class Time {
      * @return map.exitTown
     */
     public boolean getExitTown() {return map.exitTown;}
-}
+
+
+    public boolean weatherChange(){return wth.weatherChange;}
     
+}
+
+
