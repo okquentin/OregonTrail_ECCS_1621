@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"oregon_trail","l":"oregon_trail"}];updateSearchResults();
